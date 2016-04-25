@@ -86,30 +86,45 @@ var mergeSort2 = function(array, start, end) {
 }
 
 
-var runtests = function (numels, maxnum) {
+var runtests = function (numels, maxnum, numtrials) {
 
-    printMe("Number of elements: "+numels+" and maxval: "+maxnum); 
-/*    
-    var init_array = generate_random(numels, maxnum);
-    var t0 = performance.now(); 
-    var isort_result = insertionSort(init_array); 
-    var t1 = performance.now(); 
-    printMe(isort_result.isSorted()+' Insertion sort time: '+(t1-t0));
-*/
-    var init_array = generate_random(numels, maxnum);
-    var t0 = performance.now(); 
-    var msort_result = mergeSort(init_array); 
-    var t1 = performance.now(); 
-    printMe(msort_result.isSorted()+' Merge sort time: '+(t1-t0));
+    printMe("Number of elements: "+numels+" and maxval: "+maxnum+" and numtrials: "+numtrials);
 
-    var init_array = generate_random(numels, maxnum);
-    var t0 = performance.now(); 
-    var msort_result2 = mergeSort2(init_array, 0, init_array.length-1); 
-    var t1 = performance.now(); 
-    printMe(msort_result2.isSorted()+' Merge2 sort time: '+(t1-t0));
+    var mergesorttests = runMultiple(mergeSort, numels, maxnum, numtrials); 
+    printMe('MERGE SORT 1: '+mergesorttests.avgRearrangeSuccess+' time: '+mergesorttests.avgTime);
+
+    var mergesorttests2 = runMultiple(_.partial(mergeSort2, _, 0, numels-1), numels, maxnum, numtrials); 
+    printMe('MERGE SORT 2: '+mergesorttests2.avgRearrangeSuccess+' time: '+mergesorttests2.avgTime);
 
 }
 
-$(function(){runtests(10000,2000);}); 
+var runMultiple = function (myfunc, numels, maxnum, numtrials) {
+
+    var times = []; 
+    var sortSuccess = []; 
+    var rearrangeSuccess = []; 
+
+    for (var i=0; i<numtrials; i++) {
+        var init_array = generate_random(numels, maxnum); 
+        var test_array = _.clone(init_array); 
+        var t0 = performance.now(); 
+        var final_array = myfunc(test_array); 
+        var t1 = performance.now(); 
+        times.push(t1-t0); 
+        sortSuccess.push(final_array.isSorted()); 
+        rearrangeSuccess.push(final_array.isRearrangement(init_array)); 
+    }
+
+    return {
+        times: times, 
+        sortSuccess: sortSuccess, 
+        rearrangeSuccess: rearrangeSuccess, 
+        avgTime: times.reduce(function(prev, cur){return prev+cur}, 0)/times.length, 
+        avgSortSuccess: sortSuccess.reduce(function(prev, cur) {return prev&&cur}), 
+        avgRearrangeSuccess: rearrangeSuccess.reduce(function(prev, cur) {return prev&&cur})
+    }
+}
+
+$(function(){runtests(1000,2000, 100);}); 
 
 
