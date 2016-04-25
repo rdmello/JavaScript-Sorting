@@ -18,12 +18,6 @@ var generate_random = function(size, maxval) {
     return newarr; 
 }
 
-// Check that array is sorted
-Array.prototype.isSorted = function() {
-    var numUnSorted = this.filter((c,i,a)=>c<a[i-1]).length;
-    return numUnSorted===0;
-}
-
 // Swap elements in array for comparison based sorting
 Array.prototype.swap = function (i,j) {
     var temp = this[i];
@@ -54,9 +48,9 @@ var mergeSort = function (array) {
     var rightArray= [array[array.length-1]];
 
     if (array.length > 1) {
-        leftArray = mid>0 ? mergeSort(array.slice(0, mid)) : [mid];
-        rightArray= array.length!==mid ? mergeSort(array.slice(mid, array.length-1)) : [mid]; 
-    }
+        leftArray = mid>0 ? mergeSort(array.slice(0, mid)) : leftArray;
+        rightArray= array.length-1!==mid ? mergeSort(array.slice(mid, array.length)) : rightArray; 
+    } else return array; 
 
     var lt = 0, rt = 0; 
     for (var i = 0; i<array.length; i++) {
@@ -76,8 +70,8 @@ var mergeSort2 = function(array, start, end) {
 
     if (end-start > 1) {
         var mid = Math.floor(start+((end-start)/2));
-        lt = merge_sort(array, start, mid);
-        rt = merge_sort(array, mid+1, end);
+        lt = mergeSort2(array, start, mid);
+        rt = mergeSort2(array, mid+1, end);
     }
     
     for(var i=0; i<=end-start; i++){
@@ -110,7 +104,7 @@ var runtests = function (numels, maxnum) {
 
     var init_array = generate_random(numels, maxnum);
     var t0 = performance.now(); 
-    var msort_result2 = mergeSort(init_array, 0, init_array.length-1); 
+    var msort_result2 = mergeSort2(init_array, 0, init_array.length-1); 
     var t1 = performance.now(); 
     printMe(msort_result2.isSorted()+' Merge2 sort time: '+(t1-t0));
 
