@@ -12,7 +12,10 @@ Array.prototype.isSorted = function() {
 Array.prototype.isRearrangement = function(array) {
 
     // Check that arrays are the same size
-    if (array.length !== this.length) return false; 
+    if (array.length !== this.length) {
+        console.log('Sorted and Unsorted arrays have different lengths'); 
+        return false; 
+    }
 
     // Check that arrays don't contain any new elements
     if ((_.difference(this, array).length!==0)||(_.difference(array, this).length!==0)) {
@@ -29,6 +32,7 @@ Array.prototype.isRearrangement = function(array) {
     });
 
     if (tempArray.length !== 0) return false; 
+
     return true; 
 }
     

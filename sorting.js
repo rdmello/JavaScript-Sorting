@@ -85,6 +85,23 @@ var mergeSort2 = function(array, start, end) {
     return newarray;
 }
 
+var selectionSortObject = {
+    array: 0, 
+    insertIndex: 0, 
+    readIndex: 0, 
+    isComplete: false, 
+    currentMin: 0, 
+    currentEl: 0
+}
+
+var selectionSort = function() {
+    if(selectionSortObject.isComplete) return; 
+    
+    if (insertIndex==array
+
+
+}
+
 
 var runtests = function (numels, maxnum, numtrials) {
 
@@ -96,6 +113,7 @@ var runtests = function (numels, maxnum, numtrials) {
     var mergesorttests2 = runMultiple(_.partial(mergeSort2, _, 0, numels-1), numels, maxnum, numtrials); 
     printMe('MERGE SORT 2: '+mergesorttests2.avgRearrangeSuccess+' time: '+mergesorttests2.avgTime);
 
+    selectionSortObject.array = generate_random(numels, maxnum); 
 }
 
 var runMultiple = function (myfunc, numels, maxnum, numtrials) {
@@ -125,6 +143,6 @@ var runMultiple = function (myfunc, numels, maxnum, numtrials) {
     }
 }
 
-$(function(){runtests(1000,2000, 100);}); 
+$(function(){runtests(1000,2000,100);}); 
 
 
