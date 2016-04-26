@@ -128,7 +128,7 @@ var selectionSortIterator = function() {
     var s = selectionSortObject; 
     selectionSort(); 
     printMe(s.insertIndex+"|"+s.readIndex+"|"+s.array); 
-    if(!s.isComplete) {setTimeout(selectionSortIterator, 100);}
+    if(!s.isComplete) {setTimeout(selectionSortIterator, 50);}
     else {
         printMe("Final array is sorted? "+s.array.isSorted()); 
         printMe("Final array is rearrangement of original? "+s.array.isRearrangement(s.origArray)); 

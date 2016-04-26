@@ -3,8 +3,10 @@
 
 // Check that array is sorted
 Array.prototype.isSorted = function() {
-    var numUnSorted = this.filter((c,i,a)=>c<a[i-1]).length;
-    return numUnSorted===0;
+    for (var i=1; i<this.length; i++) {
+        if(this[i]<this[i-1]) return false; 
+    }
+    return true; 
 }
 
 // Check that new array is rearrangement of old
