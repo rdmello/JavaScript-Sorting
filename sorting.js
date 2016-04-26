@@ -86,34 +86,71 @@ var mergeSort2 = function(array, start, end) {
 }
 
 var selectionSortObject = {
+    origArray: 0,
     array: 0, 
     insertIndex: 0, 
     readIndex: 0, 
+    minIndex: 0, 
     isComplete: false, 
-    currentMin: 0, 
-    currentEl: 0
 }
 
 var selectionSort = function() {
-    if(selectionSortObject.isComplete) return; 
+    var s = selectionSortObject; 
+
+    // Exit if sorting process is complete
+    if(s.isComplete) return; 
     
-    if (insertIndex==array
+    // Exit if insertIndex reaches end of array
+    if (s.insertIndex === s.array.length) {
+        s.isComplete = true; 
+        return; 
+    }
 
+    // If readIndex is at end of array, swap insertIndex and minIndex and reset readIndex
+    if (s.readIndex === s.array.length) {
+        var temp = s.array[s.insertIndex]; 
+        s.array[s.insertIndex] = s.array[s.minIndex];
+        s.array[s.minIndex] = temp;
 
+        s.insertIndex++; 
+        s.readIndex = s.insertIndex; 
+        s.minIndex  = s.insertIndex; 
+        return;
+    }
+
+    // Otherwise update minIndex based on the new readIndex
+    if (s.array[s.readIndex]<s.array[s.minIndex]) s.minIndex = s.readIndex; 
+    s.readIndex++; 
+    return; 
 }
 
+var selectionSortIterator = function() {
+    var s = selectionSortObject; 
+    selectionSort(); 
+    printMe(s.insertIndex+"|"+s.readIndex+"|"+s.array); 
+    if(!s.isComplete) {setTimeout(selectionSortIterator, 100);}
+    else {
+        printMe("Final array is sorted? "+s.array.isSorted()); 
+        printMe("Final array is rearrangement of original? "+s.array.isRearrangement(s.origArray)); 
+        printMe("Exiting, bye!..."); 
+    }
+}
 
 var runtests = function (numels, maxnum, numtrials) {
 
     printMe("Number of elements: "+numels+" and maxval: "+maxnum+" and numtrials: "+numtrials);
 
+    /*
     var mergesorttests = runMultiple(mergeSort, numels, maxnum, numtrials); 
     printMe('MERGE SORT 1: '+mergesorttests.avgRearrangeSuccess+' time: '+mergesorttests.avgTime);
 
     var mergesorttests2 = runMultiple(_.partial(mergeSort2, _, 0, numels-1), numels, maxnum, numtrials); 
     printMe('MERGE SORT 2: '+mergesorttests2.avgRearrangeSuccess+' time: '+mergesorttests2.avgTime);
+    */
 
-    selectionSortObject.array = generate_random(numels, maxnum); 
+    selectionSortObject.origArray = generate_random(15, maxnum); 
+    selectionSortObject.array = selectionSortObject.origArray; 
+    selectionSortIterator(); 
 }
 
 var runMultiple = function (myfunc, numels, maxnum, numtrials) {
