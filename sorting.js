@@ -7,8 +7,7 @@
 // Function that prints to screen instead of console for mobile devices
 var printMe = function (string) {
     var outDiv = $(".out");
-    outDiv.append("<br/> >> ");
-    outDiv.append(string);
+    outDiv.append("<br/> >> "+string);
 }
 
 // Generate array filled with random integers
@@ -26,109 +25,53 @@ Array.prototype.swap = function (i,j) {
     return this;
 }
 
-// Implement insertion sort for array 
-var insertionSort = function (array) {
-    var current=0, j=0; 
-    for (var i=0; i<array.length; i++) {
-        current = (array.splice(i, 1))[0]; 
-        for (j=0; j<i; j++) {
-            if (current<array[j]) {
-                break;
-            }
-        }
-        array.splice(j, 0, current); 
+// Read elements from array
+Array.prototype.read = function (i) {
+    return this[i]; 
+}
+
+var selectionSortObject = function(array) {
+    return {
+        origArray: _.clone(array), 
+        array: array, 
+        insertIndex: 0, 
+        readIndex: 0, 
+        minIndex: 0, 
+        currentMin: array[0],
+        isComplete: false
     }
-    return array; 
 }
 
-// Implement Mergesort for an array
-var mergeSort = function (array) {
-    var mid = Math.floor(array.length/2);
-    var leftArray = [array[0]]; 
-    var rightArray= [array[array.length-1]];
-
-    if (array.length > 1) {
-        leftArray = mid>0 ? mergeSort(array.slice(0, mid)) : leftArray;
-        rightArray= array.length-1!==mid ? mergeSort(array.slice(mid, array.length)) : rightArray; 
-    } else return array; 
-
-    var lt = 0, rt = 0; 
-    for (var i = 0; i<array.length; i++) {
-        if (typeof rightArray[rt]==='undefined'||leftArray[lt]<=rightArray[rt]) {
-            array[i] = leftArray[lt]; lt++; 
-        } else {
-            array[i] = rightArray[rt]; rt++;
-        };
-    };
-    return array; 
-}
-
-var mergeSort2 = function(array, start, end) {
-    var newarray=[];
-    var lt = [array[start]]; var lti = 0; 
-    var rt = [array[end]]; var rti = 0;
-
-    if (end-start > 1) {
-        var mid = Math.floor(start+((end-start)/2));
-        lt = mergeSort2(array, start, mid);
-        rt = mergeSort2(array, mid+1, end);
-    }
-    
-    for(var i=0; i<=end-start; i++){
-        if((rt[rti]==undefined) || (lt[lti]<=rt[rti])){
-            newarray[i]=lt[lti]; lti++;
-        } else {
-            newarray[i]=rt[rti]; rti++;
-        }
-    }
-   
-    return newarray;
-}
-
-var selectionSortObject = {
-    origArray: 0,
-    array: 0, 
-    insertIndex: 0, 
-    readIndex: 0, 
-    minIndex: 0, 
-    isComplete: false, 
-}
-
-var selectionSort = function() {
-    var s = selectionSortObject; 
+var selectionSort = function(s) {
 
     // Exit if sorting process is complete
-    if(s.isComplete) return; 
-    
-    // Exit if insertIndex reaches end of array
-    if (s.insertIndex === s.array.length) {
-        s.isComplete = true; 
-        return; 
+    if (!s.isComplete) {
+        // Exit if insertIndex reaches end of array
+        if (s.insertIndex === s.array.length) { 
+            s.isComplete = true; 
+        } else if (s.readIndex === s.array.length) {
+            // If readIndex is at end of array, swap insertIndex and minIndex and reset readIndex
+            s.array.swap(s.insertIndex, s.minIndex); 
+            s.insertIndex++; 
+            s.readIndex = s.insertIndex; 
+            s.minIndex  = s.insertIndex; 
+        } else if (s.readIndex === s.minIndex) {
+            s.currentMin = s.array.read(s.minIndex); 
+            s.readIndex++; 
+        } else if (s.array.read(s.readIndex) < s.currentMin) {
+            // Otherwise update minIndex based on the new readIndex
+            s.minIndex = s.readIndex; 
+        } else {
+            s.readIndex++; 
+        }
     }
-
-    // If readIndex is at end of array, swap insertIndex and minIndex and reset readIndex
-    if (s.readIndex === s.array.length) {
-        var temp = s.array[s.insertIndex]; 
-        s.array[s.insertIndex] = s.array[s.minIndex];
-        s.array[s.minIndex] = temp;
-
-        s.insertIndex++; 
-        s.readIndex = s.insertIndex; 
-        s.minIndex  = s.insertIndex; 
-        return;
-    }
-
-    // Otherwise update minIndex based on the new readIndex
-    if (s.array[s.readIndex]<s.array[s.minIndex]) s.minIndex = s.readIndex; 
-    s.readIndex++; 
     return; 
 }
 
-var selectionSortIterator = function() {
-    var s = selectionSortObject; 
-    selectionSort(); 
+var selectionSortIterator = function(s) {
+    selectionSort(s); 
     printMe(s.insertIndex+"|"+s.readIndex+"|"+s.array); 
-    if(!s.isComplete) {setTimeout(selectionSortIterator, 50);}
+    if(!s.isComplete) {setTimeout(selectionSortIterator, 50, s);}
     else {
         printMe("Final array is sorted? "+s.array.isSorted()); 
         printMe("Final array is rearrangement of original? "+s.array.isRearrangement(s.origArray)); 
@@ -137,20 +80,8 @@ var selectionSortIterator = function() {
 }
 
 var runtests = function (numels, maxnum, numtrials) {
-
-    printMe("Number of elements: "+numels+" and maxval: "+maxnum+" and numtrials: "+numtrials);
-
-    /*
-    var mergesorttests = runMultiple(mergeSort, numels, maxnum, numtrials); 
-    printMe('MERGE SORT 1: '+mergesorttests.avgRearrangeSuccess+' time: '+mergesorttests.avgTime);
-
-    var mergesorttests2 = runMultiple(_.partial(mergeSort2, _, 0, numels-1), numels, maxnum, numtrials); 
-    printMe('MERGE SORT 2: '+mergesorttests2.avgRearrangeSuccess+' time: '+mergesorttests2.avgTime);
-    */
-
-    selectionSortObject.origArray = generate_random(15, maxnum); 
-    selectionSortObject.array = selectionSortObject.origArray; 
-    selectionSortIterator(); 
+    var s = selectionSortObject(generate_random(15, maxnum)); 
+    selectionSortIterator(s); 
 }
 
 var runMultiple = function (myfunc, numels, maxnum, numtrials) {
