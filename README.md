@@ -1,26 +1,26 @@
-# JavaScript Sorting Algorithms
+# Event-Driven JavaScript Sorting Algorithms
 
-This is a practice project for implementing and displaying JS sorting algorithms. 
+This project implements common comparison-based sorting algorithms in an event-driven manner that allows for step-by-step display of array state. It also includes an undo buffer so that sorting steps can be reversed. 
 
-See http://rylan.coffee/s/ for the implementation 
+See http://rylan.coffee/s/ for the implementation.
 
 Comments and suggestions are welcome!
 
 ### Sorting Algorithms
 
-Currently, I have implemented some comparison-based sorting algorithms: 
+Currently, the following comparison-based sorting algorithms have been implemented: 
 
 1. Selection Sort
 
-2. Insertion Sort
+The following are yet to be included: 
 
-3. Heap Sort
+1. Insertion Sort
 
-4. Merge Sort
+2. Heap Sort
 
-5. Quick Sort
+3. Merge Sort
 
-Bucket sort and Radix sort will be implemented soon. I will also add support for sorting linked-lists. 
+4. Quick Sort
 
 ### Display
 

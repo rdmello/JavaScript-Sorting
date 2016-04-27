@@ -86,7 +86,7 @@ var selectionSortIterator = function(s) {
 }
 
 var runtests = function (numels, maxnum, numtrials) {
-    var s = selectionSortObject(generate_random(15, maxnum)); 
+    var s = selectionSortObject(generate_random(12, maxnum)); 
     selectionSortIterator(s); 
 }
 
