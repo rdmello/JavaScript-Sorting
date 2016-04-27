@@ -36,48 +36,70 @@ Array.prototype.read = function (i) {
     return this[i]; 
 }
 
-var selectionSortObject = function(array) {
+// Compare array elements
+Array.prototype.compare = function (i, j) {
+    if (this[i] === this[j]) return 0; 
+    else return this[i]>this[j]? 1 : -1; 
+}
+
+// Move an array element to another position
+Array.prototype.move = function (from, to) {
+    var temp = this.splice(from, 1); 
+    this.splice(to, 0, temp[0]); 
+    return temp; 
+}
+
+var sortObject = function(array) {
     return {
         origArray: _.clone(array), 
         array: array, 
         insertIndex: 0, 
         readIndex: 0, 
         minIndex: 0, 
-        currentMin: array[0],
         isComplete: false
     }
 }
 
-var selectionSort = function(s) {
-
-    // Exit if sorting process is complete
-    if (!s.isComplete) {
-        // Exit if insertIndex reaches end of array
-        if (s.insertIndex === s.array.length) { 
-            s.isComplete = true; 
-        } else if (s.readIndex === s.array.length) {
-            // If readIndex is at end of array, swap insertIndex and minIndex and reset readIndex
-            s.array.swap(s.insertIndex, s.minIndex); 
-            s.insertIndex++; 
-            s.readIndex = s.insertIndex; 
-            s.minIndex  = s.insertIndex; 
-        } else if (s.readIndex === s.minIndex) {
-            s.currentMin = s.array.read(s.minIndex); 
-            s.readIndex++; 
-        } else if (s.array.read(s.readIndex) < s.currentMin) {
-            // Otherwise update minIndex based on the new readIndex
-            s.minIndex = s.readIndex; 
+var selectionSort = function() {
+    if (!this.isComplete) {
+        if (this.insertIndex === this.array.length) { 
+            this.isComplete = true; 
+        } else if (this.readIndex === this.array.length) {
+            this.array.swap(this.insertIndex, this.minIndex); 
+            this.insertIndex++; 
+            this.readIndex = this.insertIndex; 
+            this.minIndex  = this.insertIndex;
         } else {
-            s.readIndex++; 
+            if (this.array.compare(this.readIndex, this.minIndex) === -1) this.minIndex = this.readIndex; 
+            this.readIndex++; 
         }
     }
-    return; 
+}
+
+var insertionSort = function (s) {
+    if (!this.isComplete) {
+        if (this.readIndex === this.array.length) {
+            this.isComplete = true; 
+        } else if (this.readIndex === this.insertIndex) {
+            this.array.move(this.readIndex, this.minIndex); 
+            this.readIndex++; 
+            this.insertIndex = 0; 
+            this.minIndex = 0; 
+        } else {
+            if (this.array.compare(this.insertIndex, this.readIndex) === 1) {
+                this.insertIndex = this.readIndex; 
+            } else {
+                this.insertIndex++; 
+                this.minIndex++; 
+            }
+        }
+    }
 }
 
 var selectionSortIterator = function(s) {
-    selectionSort(s); 
+    s.sort(); 
     printMe(pad(s.insertIndex,2)+"|"+pad(s.readIndex,2)+"|"+s.array); 
-    if(!s.isComplete) {setTimeout(selectionSortIterator, 50, s);}
+    if(!s.isComplete) {setTimeout(selectionSortIterator, 10, s);}
     else {
         printMe("Final array is sorted? "+s.array.isSorted()); 
         printMe("Final array is rearrangement of original? "+s.array.isRearrangement(s.origArray)); 
@@ -86,8 +108,12 @@ var selectionSortIterator = function(s) {
 }
 
 var runtests = function (numels, maxnum, numtrials) {
-    var s = selectionSortObject(generate_random(12, maxnum)); 
-    selectionSortIterator(s); 
+    var s1 = sortObject(generate_random(12, maxnum)); 
+    var s2 = sortObject(generate_random(12, maxnum)); 
+    s1.sort = selectionSort; 
+    s2.sort = insertionSort; 
+    selectionSortIterator(s1); 
+    selectionSortIterator(s2); 
 }
 
 var runMultiple = function (myfunc, numels, maxnum, numtrials) {
