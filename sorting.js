@@ -49,6 +49,16 @@ Array.prototype.move = function (from, to) {
     return temp; 
 }
 
+var makeSortHistory = function(s) {
+    return {
+        array: _.clone(s.array),
+        insertIndex: s.insertIndex, 
+        readIndex: s.readIndex, 
+        minIndex: s.minIndex, 
+        isComplete: s.isComplete, 
+    }
+}
+
 var sortObject = function(array) {
     return {
         origArray: _.clone(array), 
@@ -56,12 +66,25 @@ var sortObject = function(array) {
         insertIndex: 0, 
         readIndex: 0, 
         minIndex: 0, 
+        history: [], 
+        undo: function(numSteps) {
+            numSteps = typeof numSteps === 'undefined' ? 1 : numSteps; 
+            var old; 
+            for (var i=0; i<numSteps; i++) old = this.history.pop(); 
+            this.array = old.array; 
+            this.insertIndex = old.insertIndex; 
+            this.readIndex = old.readIndex; 
+            this.minIndex = old.minIndex; 
+            this.isComplete = old.isComplete; 
+        },
         isComplete: false
     }
 }
 
 var selectionSort = function() {
     if (!this.isComplete) {
+        this.history.push(makeSortHistory(this)); 
+
         if (this.insertIndex === this.array.length) { 
             this.isComplete = true; 
         } else if (this.readIndex === this.array.length) {
@@ -78,6 +101,8 @@ var selectionSort = function() {
 
 var insertionSort = function (s) {
     if (!this.isComplete) {
+        this.history.push(makeSortHistory(this)); 
+        
         if (this.readIndex === this.array.length) {
             this.isComplete = true; 
         } else if (this.readIndex === this.insertIndex) {
@@ -96,12 +121,12 @@ var insertionSort = function (s) {
     }
 }
 
-var selectionSortIterator = function(s) {
+var sortIterator = function(s) {
     s.sort(); 
     printMe(pad(s.insertIndex,2)+"|"+pad(s.readIndex,2)+"|"+s.array, s.display); 
     
     if(!s.isComplete) {
-        setTimeout(selectionSortIterator, 10, s);
+        setTimeout(sortIterator, 10, s);
     } else {
         printMe("Final array is sorted? "+s.array.isSorted(), s.display); 
         printMe("Final array is rearrangement of original? "+s.array.isRearrangement(s.origArray), s.display); 
@@ -118,8 +143,8 @@ var runtests = function (numels, maxnum) {
     s2.sort = insertionSort; 
     s2.display = ".out2";
     
-    selectionSortIterator(s1); 
-    selectionSortIterator(s2); 
+    sortIterator(s1); 
+    sortIterator(s2); 
 }
 
 
