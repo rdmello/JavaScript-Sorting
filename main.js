@@ -173,5 +173,33 @@ var runtests = function(numels, maxnum) {
     console.log((t1-t0)+' Quick sort result: '+qsort_result.isSorted());
 }
 
+
+var runMultiple = function (myfunc, numels, maxnum, numtrials) {
+
+    var times = []; 
+    var sortSuccess = []; 
+    var rearrangeSuccess = []; 
+
+    for (var i=0; i<numtrials; i++) {
+        var init_array = generate_random(numels, maxnum); 
+        var test_array = _.clone(init_array); 
+        var t0 = performance.now(); 
+        var final_array = myfunc(test_array); 
+        var t1 = performance.now(); 
+        times.push(t1-t0); 
+        sortSuccess.push(final_array.isSorted()); 
+        rearrangeSuccess.push(final_array.isRearrangement(init_array)); 
+    }
+
+    return {
+        times: times, 
+        sortSuccess: sortSuccess, 
+        rearrangeSuccess: rearrangeSuccess, 
+        avgTime: times.reduce(function(prev, cur){return prev+cur}, 0)/times.length, 
+        avgSortSuccess: sortSuccess.reduce(function(prev, cur) {return prev&&cur}), 
+        avgRearrangeSuccess: rearrangeSuccess.reduce(function(prev, cur) {return prev&&cur})
+    }
+}
+
 runtests(40000, 10000000);
 

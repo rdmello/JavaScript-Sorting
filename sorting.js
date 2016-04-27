@@ -5,9 +5,9 @@
 "use strict";
 
 // Function that prints to screen instead of console for mobile devices
-var printMe = function (string) {
-    var outDiv = $(".out");
-    outDiv.append("<br/> >> "+string);
+var printMe = function (string, classname) {
+    var outDiv = $(classname);
+    outDiv.append("<br/> >> " + string);
 }
 
 // Generate array filled with random integers
@@ -98,51 +98,31 @@ var insertionSort = function (s) {
 
 var selectionSortIterator = function(s) {
     s.sort(); 
-    printMe(pad(s.insertIndex,2)+"|"+pad(s.readIndex,2)+"|"+s.array); 
-    if(!s.isComplete) {setTimeout(selectionSortIterator, 10, s);}
-    else {
-        printMe("Final array is sorted? "+s.array.isSorted()); 
-        printMe("Final array is rearrangement of original? "+s.array.isRearrangement(s.origArray)); 
-        printMe("Exiting, bye!..."); 
+    printMe(pad(s.insertIndex,2)+"|"+pad(s.readIndex,2)+"|"+s.array, s.display); 
+    
+    if(!s.isComplete) {
+        setTimeout(selectionSortIterator, 10, s);
+    } else {
+        printMe("Final array is sorted? "+s.array.isSorted(), s.display); 
+        printMe("Final array is rearrangement of original? "+s.array.isRearrangement(s.origArray), s.display); 
+        printMe("Exiting, bye!...", s.display); 
     }
 }
 
-var runtests = function (numels, maxnum, numtrials) {
-    var s1 = sortObject(generate_random(12, maxnum)); 
-    var s2 = sortObject(generate_random(12, maxnum)); 
+var runtests = function (numels, maxnum) {
+    var s1 = sortObject(generate_random(numels, maxnum)); 
     s1.sort = selectionSort; 
+    s1.display = ".out1"; 
+
+    var s2 = sortObject(generate_random(numels, maxnum)); 
     s2.sort = insertionSort; 
+    s2.display = ".out2";
+    
     selectionSortIterator(s1); 
     selectionSortIterator(s2); 
 }
 
-var runMultiple = function (myfunc, numels, maxnum, numtrials) {
 
-    var times = []; 
-    var sortSuccess = []; 
-    var rearrangeSuccess = []; 
-
-    for (var i=0; i<numtrials; i++) {
-        var init_array = generate_random(numels, maxnum); 
-        var test_array = _.clone(init_array); 
-        var t0 = performance.now(); 
-        var final_array = myfunc(test_array); 
-        var t1 = performance.now(); 
-        times.push(t1-t0); 
-        sortSuccess.push(final_array.isSorted()); 
-        rearrangeSuccess.push(final_array.isRearrangement(init_array)); 
-    }
-
-    return {
-        times: times, 
-        sortSuccess: sortSuccess, 
-        rearrangeSuccess: rearrangeSuccess, 
-        avgTime: times.reduce(function(prev, cur){return prev+cur}, 0)/times.length, 
-        avgSortSuccess: sortSuccess.reduce(function(prev, cur) {return prev&&cur}), 
-        avgRearrangeSuccess: rearrangeSuccess.reduce(function(prev, cur) {return prev&&cur})
-    }
-}
-
-$(function(){runtests(1000,2000,100);}); 
+$(function(){runtests(12,2000);}); 
 
 
