@@ -17,6 +17,12 @@ var generate_random = function(size, maxval) {
     return newarr; 
 }
 
+// Pad numbers for equal width
+function pad (n, width) {
+    n = n + ''; 
+    return (n.length >= width) ? n : new Array(width-n.length + 1).join('0') + n; 
+}
+
 // Swap elements in array for comparison based sorting
 Array.prototype.swap = function (i,j) {
     var temp = this[i];
@@ -70,7 +76,7 @@ var selectionSort = function(s) {
 
 var selectionSortIterator = function(s) {
     selectionSort(s); 
-    printMe(s.insertIndex+"|"+s.readIndex+"|"+s.array); 
+    printMe(pad(s.insertIndex,2)+"|"+pad(s.readIndex,2)+"|"+s.array); 
     if(!s.isComplete) {setTimeout(selectionSortIterator, 50, s);}
     else {
         printMe("Final array is sorted? "+s.array.isSorted()); 
