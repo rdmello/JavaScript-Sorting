@@ -6,8 +6,8 @@
 
 // Function that prints to screen instead of console for mobile devices
 var printMe = function (string, classname) {
-    var outDiv = $(classname);
-    outDiv.append("<br/> >> " + string);
+    var outDiv = document.getElementsByClassName(classname)[0];
+    outDiv.innerHTML += "<br/> >> " + string;
 }
 
 // Generate array filled with random integers
@@ -137,17 +137,17 @@ var sortIterator = function(s) {
 var runtests = function (numels, maxnum) {
     var s1 = sortObject(generate_random(numels, maxnum)); 
     s1.sort = selectionSort; 
-    s1.display = ".out1"; 
+    s1.display = "out1"; 
 
     var s2 = sortObject(generate_random(numels, maxnum)); 
     s2.sort = insertionSort; 
-    s2.display = ".out2";
+    s2.display = "out2";
     
     sortIterator(s1); 
     sortIterator(s2); 
 }
 
 
-$(function(){runtests(12,2000);}); 
+document.addEventListener('DOMContentLoaded', function(){runtests(12,2000);}); 
 
 
