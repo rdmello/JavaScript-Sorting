@@ -6,8 +6,11 @@
 
 // Function that prints to screen instead of console for mobile devices
 var printMe = function (string, classname) {
+    /*
     var outDiv = document.getElementsByClassName(classname)[0];
     outDiv.innerHTML += "<br/> $ " + string;
+    */
+ //   console.log(string); 
 }
 
 // Generate array filled with random integers
@@ -84,6 +87,7 @@ var sortObject = function(array) {
 var selectionSort = function() {
     if (!this.isComplete) {
         this.history.push(makeSortHistory(this)); 
+        dispRects(this.array, 1); 
 
         if (this.insertIndex === this.array.length) { 
             this.isComplete = true; 
@@ -102,7 +106,8 @@ var selectionSort = function() {
 var insertionSort = function (s) {
     if (!this.isComplete) {
         this.history.push(makeSortHistory(this)); 
-        
+        dispRects(this.array, 2); 
+
         if (this.readIndex === this.array.length) {
             this.isComplete = true; 
         } else if (this.readIndex === this.insertIndex) {
@@ -126,7 +131,7 @@ var sortIterator = function(s) {
     printMe("("+pad(s.insertIndex,2)+") ("+pad(s.readIndex,2)+") "+s.array, s.display); 
     
     if(!s.isComplete) {
-        setTimeout(sortIterator, 10, s);
+        setTimeout(sortIterator, 20, s);
     } else {
         printMe("Final array is sorted? "+s.array.isSorted(), s.display); 
         printMe("Final array is rearrangement of original? "+s.array.isRearrangement(s.origArray), s.display); 
@@ -148,6 +153,6 @@ var runtests = function (numels, maxnum) {
 }
 
 
-document.addEventListener('DOMContentLoaded', function(){runtests(12,2000);}); 
+document.addEventListener('DOMContentLoaded', function(){loadView(); runtests(25,150);}); 
 
 

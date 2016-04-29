@@ -10,8 +10,10 @@
         <link rel="stylesheet" href="/resources/pure/grids-responsive-min.css">
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
         <script src="/resources/underscore.js"></script>
+        <script src="/resources/d3.js"></script>
         <script src="tests.js"></script>
         <script src="sorting.js"></script>
+        <script src="view.js"></script>
         <style type="text/css">
             body {
                 background-color: rgb(240, 240, 240);
@@ -40,7 +42,6 @@
                 font-weight: 400; 
                 line-height: 18.5667px; 
             }
-
             .out {
                 border-radius: 15px;
                 background-color: white;
@@ -48,18 +49,31 @@
                 padding: 10px; 
 
             }
+            rect {
+                stroke-width: 5; 
+                stroke: black; 
+            }
+            .enter {
+                fill: green; 
+            }
+            .update {
+                fill: red; 
+            }
         </style>
     </head>
     <body>
         <div class="pure-g">
             <div class="pure-u-2-24 pure-u-md-2-24 pure-u-lg-2-24"></div>
             <div class="content pure-u-20-24 pure-u-md-20-24 pure-u-lg-20-24">
-                <h1>PROJECT: Implement sorting algorithms in JS</h1>
+                <h1>  </h1>
                 <div class="out">
+                    <h1>PROJECT: Implement sorting algorithms in JS</h1>
                     <h3>Output:</h3>
                     <pre class="out1">Selection Sort: </pre>
+                    <div class="svgtarget"></div> 
                     <br/>
                     <pre class="out2">Insertion Sort: </pre>
+                    <div class="svgtarget2"></div> 
                 </div>
             </div>
             <div class="pure-u-2-24 pure-u-md-2-24 pure-u-lg-2-24"></div>
