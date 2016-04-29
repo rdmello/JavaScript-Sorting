@@ -10,7 +10,8 @@ var sortObject = function(array) {
         array: array, 
         insertIndex: 0, 
         readIndex: 0, 
-        minIndex: 0, 
+        minIndex: 0,
+        displayClass: 1,
         history: [], 
         undo: function(numSteps) {
             numSteps = typeof numSteps === 'undefined' ? 1 : numSteps; 
@@ -21,6 +22,7 @@ var sortObject = function(array) {
             this.readIndex = old.readIndex; 
             this.minIndex = old.minIndex; 
             this.isComplete = old.isComplete; 
+            this.display(this.displayClass); 
         },
         makeSortHistory: function() {
             this.history.push({
@@ -31,6 +33,9 @@ var sortObject = function(array) {
                 isComplete: this.isComplete
             })
         },
+        display: function(nSvg){
+            dispRects(this, nSvg); 
+        },
         isComplete: false
     }
 }
@@ -38,11 +43,8 @@ var sortObject = function(array) {
 var selectionSort = function() {
     if (!this.isComplete) {
         this.makeSortHistory(); 
-        var tempArray = this.array; 
-        var indexArray = this.origArray.map(function(el) {return _.indexOf(tempArray, el)});
-        var dispObj = _.zip(indexArray, this.origArray); 
-        dispRects(dispObj, 1, this); 
-
+        this.display(1); 
+        
         if (this.insertIndex === this.array.length) { 
             this.isComplete = true; 
         } else if (this.readIndex === this.array.length) {
@@ -60,10 +62,7 @@ var selectionSort = function() {
 var insertionSort = function (s) {
     if (!this.isComplete) {
         this.makeSortHistory(); 
-        var tempArray = this.array; 
-        var indexArray = this.origArray.map(function(el) {return _.indexOf(tempArray, el)});
-        var dispObj = _.zip(indexArray, this.origArray); 
-        dispRects(dispObj, 2, this); 
+        this.display(2);
 
         if (this.readIndex === this.array.length) {
             this.isComplete = true; 
@@ -85,14 +84,14 @@ var insertionSort = function (s) {
 
 var sortIterator = function(s) {
     s.sort(); 
-    printMe("("+pad(s.insertIndex,2)+") ("+pad(s.readIndex,2)+") "+s.array, s.display); 
+    printMe("("+pad(s.insertIndex,2)+") ("+pad(s.readIndex,2)+") "+s.array, s.displayClass);
 
     if(!s.isComplete) {
         setTimeout(sortIterator, 200, s);
     } else {
-        printMe("Final array is sorted? "+s.array.isSorted(), s.display); 
-        printMe("Final array is rearrangement of original? "+s.array.isRearrangement(s.origArray), s.display); 
-        printMe("Exiting, bye!...", s.display); 
+        printMe("Final array is sorted? "+s.array.isSorted(), s.displayClass); 
+        printMe("Final array is rearrangement of original? "+s.array.isRearrangement(s.origArray), s.displayClass); 
+        printMe("Exiting, bye!...", s.displayClass); 
     }
 }
 
@@ -101,11 +100,11 @@ var runtests = function (numels, maxnum) {
     var newarr = generate_random(numels, maxnum); 
     s1 = sortObject(_.clone(newarr)); 
     s1.sort = selectionSort; 
-    s1.display = "out1"; 
+    s1.displayClass = 1; 
 
     s2 = sortObject(_.clone(newarr)); 
     s2.sort = insertionSort; 
-    s2.display = "out2";
+    s2.displayClass = 2;
 
     sortIterator(s1); 
     sortIterator(s2); 

@@ -25,7 +25,11 @@ var loadView = function() {
 
 }
 
-var dispRects = function (dispObj, svgtarg, sortObj) {
+var dispRects = function (sortObj, svgtarg) {
+
+    var tempArray = sortObj.array; 
+    var indexArray = sortObj.origArray.map(function(el) {return _.indexOf(tempArray, el)});
+    var dispObj = _.zip(indexArray, sortObj.origArray); 
 
     var maxheight = dispObj[0][1]; 
     for (var i=0; i<dispObj.length; i++) {
@@ -39,8 +43,8 @@ var dispRects = function (dispObj, svgtarg, sortObj) {
 
     rects.attr("class", "update")
         .style("fill", function(d){
-            if(d[1] === sortObj.array[sortObj.readIndex]) {return "blue"}    
-            else if(d[1] === sortObj.array[sortObj.insertIndex]) {return "green"}    
+            if(d[1] === sortObj.array[sortObj.readIndex]) {return "#4daf4a"}    
+            else if(d[1] === sortObj.array[sortObj.insertIndex]) {return "#377eb8"}    
             else if(d[1] === sortObj.array[sortObj.minIndex]) {return "black"}    
         })
         .transition()
@@ -60,7 +64,5 @@ var dispRects = function (dispObj, svgtarg, sortObj) {
     rects.exit().remove(); 
 
 }
-
-
 
 
