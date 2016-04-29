@@ -44,7 +44,7 @@ var dispRects = function (dispObj, svgtarg, sortObj) {
             else if(d[1] === sortObj.array[sortObj.minIndex]) {return "black"}    
         })
         .transition()
-        .duration(100)
+        .duration(150)
         .attr("x", function(d) {
             return d[0]*svgTarget.clientWidth/dispObj.length;
         });  

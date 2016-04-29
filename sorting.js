@@ -16,7 +16,7 @@ var printMe = function (string, classname) {
 // Generate array filled with random integers
 var generate_random = function(size, maxval) {
     var newarr = []; 
-    for(var i=0; i<size; i++) newarr[i] = Math.round(maxval*Math.random());
+    for(var i=0; i<size; i++) newarr[i] = (maxval/10)+Math.round(9*maxval*Math.random()/10);
     return newarr; 
 }
 
@@ -137,7 +137,7 @@ var sortIterator = function(s) {
     printMe("("+pad(s.insertIndex,2)+") ("+pad(s.readIndex,2)+") "+s.array, s.display); 
     
     if(!s.isComplete) {
-        setTimeout(sortIterator, 50, s);
+        setTimeout(sortIterator, 200, s);
     } else {
         printMe("Final array is sorted? "+s.array.isSorted(), s.display); 
         printMe("Final array is rearrangement of original? "+s.array.isRearrangement(s.origArray), s.display); 
@@ -147,11 +147,12 @@ var sortIterator = function(s) {
 
 var s1, s2;
 var runtests = function (numels, maxnum) {
-    s1 = sortObject(generate_random(numels, maxnum)); 
+    var newarr = generate_random(numels, maxnum); 
+    s1 = sortObject(_.clone(newarr)); 
     s1.sort = selectionSort; 
     s1.display = "out1"; 
 
-    s2 = sortObject(generate_random(numels, maxnum)); 
+    s2 = sortObject(_.clone(newarr)); 
     s2.sort = insertionSort; 
     s2.display = "out2";
     
@@ -160,6 +161,6 @@ var runtests = function (numels, maxnum) {
 }
 
 
-document.addEventListener('DOMContentLoaded', function(){loadView(); runtests(25,10000);}); 
+document.addEventListener('DOMContentLoaded', function(){loadView(); runtests(30,10000);}); 
 
 
