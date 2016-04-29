@@ -87,7 +87,8 @@ var sortObject = function(array) {
 var selectionSort = function() {
     if (!this.isComplete) {
         this.history.push(makeSortHistory(this)); 
-        var indexArray = this.origArray.map(el => _.indexOf(this.array, el));
+        var tempArray = this.array; 
+        var indexArray = this.origArray.map(function(el) {return _.indexOf(tempArray, el)});
         var dispObj = _.zip(indexArray, this.origArray); 
         dispRects(dispObj, 1); 
 
@@ -108,7 +109,8 @@ var selectionSort = function() {
 var insertionSort = function (s) {
     if (!this.isComplete) {
         this.history.push(makeSortHistory(this)); 
-        var indexArray = this.origArray.map(el => _.indexOf(this.array, el));
+        var tempArray = this.array; 
+        var indexArray = this.origArray.map(function(el) {return _.indexOf(tempArray, el)});
         var dispObj = _.zip(indexArray, this.origArray); 
         dispRects(dispObj, 2); 
 

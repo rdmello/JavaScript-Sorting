@@ -34,8 +34,6 @@ var dispRects = function (dispObj, svgtarg) {
     var rects = thisSvg.selectAll("rect").data(dispObj);
 
     rects.attr("class", "update")
-         //.attr("height", function(d) {return d})
-         //.attr("y", function (d) {return svgTarget.clientHeight-d;})
          .transition()
          .duration(100)
          .attr("x", function(d) {
@@ -45,7 +43,7 @@ var dispRects = function (dispObj, svgtarg) {
     rects.enter().append("rect").attr("class", "enter")
                  .attr("width", svgTarget.clientWidth/dispObj.length)           
                  .attr("height", function(d) {return d[1]*150/maxheight})             
-                 .attr("x", d => d[0]*svgTarget.clientWidth/dispObj.length)
+                 .attr("x", function(d){return d[0]*svgTarget.clientWidth/dispObj.length})
                  .attr("y", function (d) {return svgTarget.clientHeight-(d[1]*150/maxheight)}); 
 
 
