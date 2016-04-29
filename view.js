@@ -30,18 +30,25 @@ var dispRects = function (array, svgtarg) {
 
     var rects = thisSvg.selectAll("rect").data(array);
 
-    rects.attr("class", "update"); 
+    rects.attr("class", "update")
+                              .transition()
+                              .duration(50)
+                              .attr("height", function(d) {return d})
+                              .attr("y", function (d) {return svgTarget.clientHeight-d;})
+                              .attr("x", function(d, i) {
+                                  return i*svgTarget.clientWidth/array.length;
+                              });  
                      
-    rects.enter().append("rect").attr("class", "enter");
-
-    rects.exit().remove(); 
-
-    var rectAttributes = rects.attr("width", svgTarget.clientWidth/array.length)
+    rects.enter().append("rect").attr("class", "enter").attr("width", svgTarget.clientWidth/array.length)
                               .attr("height", function(d) {return d})
                               .attr("x", function(d, i) {
                                   return i*svgTarget.clientWidth/array.length;
                               })
                               .attr("y", function (d) {return svgTarget.clientHeight-d;}); 
+
+
+    rects.exit().remove(); 
+
 }
 
 
