@@ -7,7 +7,7 @@
 // Function that prints to screen instead of console for mobile devices
 var printMe = function (string, classname) {
     var outDiv = document.getElementsByClassName(classname)[0];
-    outDiv.innerHTML += "<br/> >> " + string;
+    outDiv.innerHTML += "<br/> $ " + string;
 }
 
 // Generate array filled with random integers
@@ -123,7 +123,7 @@ var insertionSort = function (s) {
 
 var sortIterator = function(s) {
     s.sort(); 
-    printMe(pad(s.insertIndex,2)+"|"+pad(s.readIndex,2)+"|"+s.array, s.display); 
+    printMe("("+pad(s.insertIndex,2)+") ("+pad(s.readIndex,2)+") "+s.array, s.display); 
     
     if(!s.isComplete) {
         setTimeout(sortIterator, 10, s);
