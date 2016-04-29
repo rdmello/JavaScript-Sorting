@@ -87,7 +87,9 @@ var sortObject = function(array) {
 var selectionSort = function() {
     if (!this.isComplete) {
         this.history.push(makeSortHistory(this)); 
-        dispRects(this.array, 1); 
+        var indexArray = this.origArray.map(el => _.indexOf(this.array, el));
+        var dispObj = _.zip(indexArray, this.origArray); 
+        dispRects(dispObj, 1); 
 
         if (this.insertIndex === this.array.length) { 
             this.isComplete = true; 
@@ -106,7 +108,9 @@ var selectionSort = function() {
 var insertionSort = function (s) {
     if (!this.isComplete) {
         this.history.push(makeSortHistory(this)); 
-        dispRects(this.array, 2); 
+        var indexArray = this.origArray.map(el => _.indexOf(this.array, el));
+        var dispObj = _.zip(indexArray, this.origArray); 
+        dispRects(dispObj, 2); 
 
         if (this.readIndex === this.array.length) {
             this.isComplete = true; 
@@ -139,12 +143,13 @@ var sortIterator = function(s) {
     }
 }
 
+var s1, s2;
 var runtests = function (numels, maxnum) {
-    var s1 = sortObject(generate_random(numels, maxnum)); 
+    s1 = sortObject(generate_random(numels, maxnum)); 
     s1.sort = selectionSort; 
     s1.display = "out1"; 
 
-    var s2 = sortObject(generate_random(numels, maxnum)); 
+    s2 = sortObject(generate_random(numels, maxnum)); 
     s2.sort = insertionSort; 
     s2.display = "out2";
     
@@ -153,6 +158,6 @@ var runtests = function (numels, maxnum) {
 }
 
 
-document.addEventListener('DOMContentLoaded', function(){loadView(); runtests(25,150);}); 
+document.addEventListener('DOMContentLoaded', function(){loadView(); runtests(25,10000);}); 
 
 
