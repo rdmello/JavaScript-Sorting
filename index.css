@@ -1,0 +1,47 @@
+
+body {
+    background-color: rgb(240, 240, 240);
+}
+h1 {
+    font-family: Raleway; 
+    font-size: 24px; 
+    font-style: normal; 
+    font-variant: normal; 
+    font-weight: 500; 
+    line-height: 26.4px; 
+}
+h3 {
+    font-family: Raleway; 
+    font-size: 14px; 
+    font-style: normal; 
+    font-variant: normal; 
+    font-weight: 500; 
+    line-height: 15.4px; 
+}
+pre {
+    font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
+    font-size: 13px; 
+    font-style: normal; 
+    font-variant: normal; 
+    font-weight: 400; 
+    line-height: 18.5667px; 
+}
+.out {
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 2px 4px 6px 1px rgba(50, 50, 50, 0.14);
+    padding: 10px; 
+
+}
+rect {
+    stroke-width: 5; 
+    stroke: white; 
+}
+.enter {
+    fill: green; 
+}
+.update {
+    fill: red; 
+}
+
+

@@ -90,7 +90,7 @@ var selectionSort = function() {
         var tempArray = this.array; 
         var indexArray = this.origArray.map(function(el) {return _.indexOf(tempArray, el)});
         var dispObj = _.zip(indexArray, this.origArray); 
-        dispRects(dispObj, 1); 
+        dispRects(dispObj, 1, this); 
 
         if (this.insertIndex === this.array.length) { 
             this.isComplete = true; 
@@ -112,7 +112,7 @@ var insertionSort = function (s) {
         var tempArray = this.array; 
         var indexArray = this.origArray.map(function(el) {return _.indexOf(tempArray, el)});
         var dispObj = _.zip(indexArray, this.origArray); 
-        dispRects(dispObj, 2); 
+        dispRects(dispObj, 2, this); 
 
         if (this.readIndex === this.array.length) {
             this.isComplete = true; 
@@ -137,7 +137,7 @@ var sortIterator = function(s) {
     printMe("("+pad(s.insertIndex,2)+") ("+pad(s.readIndex,2)+") "+s.array, s.display); 
     
     if(!s.isComplete) {
-        setTimeout(sortIterator, 20, s);
+        setTimeout(sortIterator, 50, s);
     } else {
         printMe("Final array is sorted? "+s.array.isSorted(), s.display); 
         printMe("Final array is rearrangement of original? "+s.array.isRearrangement(s.origArray), s.display); 
