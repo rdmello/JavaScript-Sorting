@@ -11,6 +11,8 @@ var sortObject = function(array) {
         insertIndex: 0, 
         readIndex: 0, 
         minIndex: 0,
+        startBar: 0, 
+        endBar: array.length,
         displayClass: 1,
         history: [], 
         undo: function(numSteps) {
@@ -21,6 +23,8 @@ var sortObject = function(array) {
             this.insertIndex = old.insertIndex; 
             this.readIndex = old.readIndex; 
             this.minIndex = old.minIndex; 
+            this.startBar = old.startBar; 
+            this.endBar = old.endBar;
             this.isComplete = old.isComplete; 
             this.display(this.displayClass); 
         },
@@ -30,6 +34,8 @@ var sortObject = function(array) {
                 insertIndex: this.insertIndex, 
                 readIndex: this.readIndex, 
                 minIndex: this.minIndex, 
+                startBar: this.startBar, 
+                endBar: this.endBar,
                 isComplete: this.isComplete
             })
         },
@@ -43,6 +49,7 @@ var sortObject = function(array) {
 var selectionSort = function() {
     if (!this.isComplete) {
         this.makeSortHistory(); 
+        this.startBar = this.insertIndex+1; 
         this.display(1); 
         
         if (this.insertIndex === this.array.length) { 
@@ -71,6 +78,7 @@ var insertionSort = function (s) {
             this.readIndex++; 
             this.insertIndex = 0; 
             this.minIndex = 0; 
+            this.endBar = this.readIndex; 
         } else {
             if (this.array.compare(this.insertIndex, this.readIndex) === 1) {
                 this.insertIndex = this.readIndex; 

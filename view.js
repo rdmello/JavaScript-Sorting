@@ -12,13 +12,13 @@ var loadView = function() {
         .append("svg")
         .attr("width", svgTarget.clientWidth)
         .attr("height", svgTarget.clientHeight)
-        .style("border", "solid black 1px"); 
+        .style("border", "solid rgb(160, 160, 160) 1px"); 
 
     mySvg2 = d3.select(svgTarget2)
         .append("svg")
         .attr("width", svgTarget2.clientWidth)
         .attr("height", svgTarget2.clientHeight)
-        .style("border", "solid black 1px"); 
+        .style("border", "solid rgb(160, 160, 160) 1px"); 
 
     sortGroup = mySvg.append("g"); 
     sortGroup2 = mySvg2.append("g"); 
@@ -56,12 +56,28 @@ var dispRects = function (sortObj, svgtarg) {
     rects.enter().append("rect").attr("class", "enter")
         .attr("width", svgTarget.clientWidth/dispObj.length)           
         .attr("height", function(d) {return d[1]*svgTarget.clientHeight/maxheight})             
-        .attr("x", function(d){return d[0]*svgTarget.clientHeight/dispObj.length})
+        .attr("x", function(d){return d[0]*svgTarget.clientWidth/dispObj.length})
         .attr("y", function (d) {return svgTarget.clientHeight-(d[1]*svgTarget.clientHeight/maxheight)})
         .attr("rx", 5)
         .attr("ry", 5); 
 
     rects.exit().remove(); 
+
+    var lines = thisSvg.selectAll("line").data([sortObj.startBar, sortObj.endBar]); 
+
+    lines.attr("class", "lineUpdate")
+        .transition()
+        .duration(150)
+        .attr("x1", function(d) {return d*svgTarget.clientWidth/sortObj.array.length;})
+        .attr("x2", function(d) {return d*svgTarget.clientWidth/sortObj.array.length;})
+
+    lines.enter().append("line").attr("class", "lineEnter")
+        .attr("x1", function(d) {return d*svgTarget.clientWidth/sortObj.array.length;})
+        .attr("y1", 0)
+        .attr("x2", function(d) {return d*svgTarget.clientWidth/sortObj.array.length;})
+        .attr("y2", svgTarget.clientHeight);
+
+    lines.exit().remove(); 
 
 }
 
