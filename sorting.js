@@ -60,6 +60,25 @@ var selectionSort = function (array) {
     this.history.push(newSortStep(array.length, array.length, array.length, array.length, true)); 
 }
 
+var insertionSort = function (array) {
+
+    var origArray = _.clone(array); 
+    var newSortStep = _.partial(sortStep, array, origArray, array, _, _, _, 0, _, _); 
+    this.history.push(newSortStep(0, 0, 0, 0, false)); 
+
+    for (var i=0; i< array.length; i++) {
+        this.history.push(newSortStep(i, i, i, i, false)); 
+        for (var j=0; j<i; j++) {
+            this.history.push(newSortStep(j, i, j, i, false)); 
+            if (array[i] < array[j]) break;
+        }
+        array.move(i, j); 
+        this.history.push(newSortStep(j, i, j, i, false)); 
+    }
+
+    this.history.push(newSortStep(array.length, array.length, array.length, 0, true)); 
+}
+
 var sortIterator = function (s) {
     s.display(); 
     if (!s.isSorted) setTimeout(sortIterator, 20, s); 
@@ -70,7 +89,9 @@ var runtests = function (numels, maxnum) {
     
     var newarr = generate_random(numels, maxnum); 
     s1 = sortData(selectionSort, newarr, 1); 
+    s2 = sortData(insertionSort, newarr, 2); 
     sortIterator(s1); 
+    sortIterator(s2); 
 }
 
 document.addEventListener('DOMContentLoaded', function(){loadView(); runtests(30,10000);}); 
