@@ -79,19 +79,57 @@ var insertionSort = function (array) {
     this.history.push(newSortStep(array.length, array.length, array.length, 0, true)); 
 }
 
-var sortIterator = function (s) {
-    s.display(); 
-    if (!s.isSorted) setTimeout(sortIterator, 20, s); 
+var quickSort = function (array) {
+
+    var origArray = _.clone(array); 
+    var newSortStep = _.partial(sortStep, array, origArray, array, _, _, _, _, _, _); 
+    this.history.push(newSortStep(0, 0, 0, 0, array.length, false)); 
+    var that = this; 
+    var addHistory = function(a,b,c,d,e){that.history.push(newSortStep(a,b,c,d,e,false))}; 
+
+    qRec(array, 0, array.length, addHistory);  
+
+    this.history.push(newSortStep(array.length, array.length, array.length, array.length, array.length, true)); 
 }
 
-var s1, s2;
+// Incl start, not incl end
+var qRec = function (array, start, end, addHist) {
+
+    var pivotIndex = start+Math.floor((end-start)*Math.random());
+    array.swap(pivotIndex, end-1); 
+    addHist(end-2, end-1, start, start, end);  
+
+    var j = end-2; 
+    for (var i=start; i<=j; i++) {
+        if(array[i] > array[end-1]) {
+            array.swap(i, j); j--; i--; 
+        }
+        addHist(j, end-1, i, start, end); 
+    }
+    pivotIndex = j+1;
+    array.swap(end-1, pivotIndex); 
+    addHist(end-1, pivotIndex, j, start, end); 
+    console.log(start, end, pivotIndex); 
+
+    if (pivotIndex-start>2) qRec(array, start, pivotIndex, addHist); 
+    if (end-pivotIndex > 2) qRec(array, pivotIndex, end, addHist); 
+}
+
+var sortIterator = function (s) {
+    s.display(); 
+    if (!s.isSorted) setTimeout(sortIterator, 200, s); 
+}
+
+var s1, s2, s3;
 var runtests = function (numels, maxnum) {
     
     var newarr = generate_random(numels, maxnum); 
     s1 = sortData(selectionSort, newarr, 1); 
     s2 = sortData(insertionSort, newarr, 2); 
+    s3 = sortData(quickSort, newarr, 3); 
     sortIterator(s1); 
     sortIterator(s2); 
+    sortIterator(s3); 
 }
 
 document.addEventListener('DOMContentLoaded', function(){loadView(); runtests(30,10000);}); 
