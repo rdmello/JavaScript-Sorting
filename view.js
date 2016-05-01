@@ -63,7 +63,7 @@ var dispRects = function (sortObj, svgtarg) {
 
     rects.exit().remove(); 
 
-    var lines = thisSvg.selectAll("line").data([sortObj.startBar, sortObj.endBar]); 
+    var lines = thisSvg.selectAll("line").data([sortObj.start, sortObj.end]); 
 
     lines.attr("class", "lineUpdate")
         .transition()
