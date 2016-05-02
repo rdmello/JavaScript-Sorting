@@ -99,20 +99,21 @@ var qRec = function (array, start, end, addHist) {
     array.swap(pivotIndex, end-1); 
     addHist(end-2, end-1, start, start, end);  
 
-    var j = end-2; 
-    for (var i=start; i<=j; i++) {
+    var i = start; var j = end-2; 
+    while(i<=j){
         if(array[i] > array[end-1]) {
-            array.swap(i, j); j--; i--; 
+            array.swap(i, j); j= j-1; i = i-1; 
         }
+        if (j<start) break; 
+        i = i+1; 
         addHist(j, end-1, i, start, end); 
     }
     pivotIndex = j+1;
     array.swap(end-1, pivotIndex); 
-    addHist(end-1, pivotIndex, j, start, end); 
-    console.log(start, end, pivotIndex); 
+    addHist(end-1, pivotIndex, j+1, start, end); 
 
-    if (pivotIndex-start>2) qRec(array, start, pivotIndex, addHist); 
-    if (end-pivotIndex > 2) qRec(array, pivotIndex, end, addHist); 
+    if (pivotIndex-start>1) qRec(array, start, pivotIndex, addHist); 
+    if (end-pivotIndex > 1) qRec(array, pivotIndex+1, end, addHist); 
 }
 
 var sortIterator = function (s) {
