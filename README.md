@@ -14,13 +14,13 @@ Currently, the following comparison-based sorting algorithms have been implement
 
 2. Insertion Sort
 
+3. Quick Sort
+
 The following are yet to be included: 
 
 1. Heap Sort
 
 2. Merge Sort
-
-3. Quick Sort
 
 ### Display
 

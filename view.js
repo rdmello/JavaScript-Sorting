@@ -32,7 +32,17 @@ var loadView = function() {
 var dispRects = function (sortObj, svgtarg) {
 
     var tempArray = sortObj.array; 
-    var indexArray = sortObj.origArray.map(function(el) {return _.indexOf(tempArray, el)});
+    var isGray = sortObj.array.map(function(e,i) {
+        if (i<sortObj.start || i>=sortObj.end) {return true}
+        else return false; 
+    }); 
+    var indexArray = sortObj.origArray.map(function(el) {
+        var newIndex = _.indexOf(tempArray, el); 
+        return {
+            newIndex: newIndex, 
+            isGray: isGray[newIndex]
+        }
+    });
     var dispObj = _.zip(indexArray, sortObj.origArray); 
 
     var maxheight = dispObj[0][1]; 
@@ -49,20 +59,21 @@ var dispRects = function (sortObj, svgtarg) {
 
     rects.attr("class", "update")
         .style("fill", function(d){
-            if(d[1] === sortObj.array[sortObj.readIndex]) {return "#4daf4a"}    
+            if(d[0].isGray) {return "rgb(230,230,230)"}
+            else if(d[1] === sortObj.array[sortObj.readIndex]) {return "#4daf4a"}    
             else if(d[1] === sortObj.array[sortObj.insertIndex]) {return "#377eb8"}    
             else if(d[1] === sortObj.array[sortObj.minIndex]) {return "black"}    
         })
         .transition()
         .duration(150)
         .attr("x", function(d) {
-            return d[0]*svgTarget.clientWidth/dispObj.length;
+            return d[0].newIndex*svgTarget.clientWidth/dispObj.length;
         });  
 
     rects.enter().append("rect").attr("class", "enter")
         .attr("width", svgTarget.clientWidth/dispObj.length)           
         .attr("height", function(d) {return d[1]*svgTarget.clientHeight/maxheight})             
-        .attr("x", function(d){return d[0]*svgTarget.clientWidth/dispObj.length})
+        .attr("x", function(d){return d[0].newIndex*svgTarget.clientWidth/dispObj.length})
         .attr("y", function (d) {return svgTarget.clientHeight-(d[1]*svgTarget.clientHeight/maxheight)})
         .attr("rx", 5)
         .attr("ry", 5); 

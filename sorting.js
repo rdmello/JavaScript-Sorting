@@ -67,13 +67,13 @@ var insertionSort = function (array) {
     this.history.push(newSortStep(0, 0, 0, 0, false)); 
 
     for (var i=0; i< array.length; i++) {
-        this.history.push(newSortStep(i, i, i, i, false)); 
+        this.history.push(newSortStep(i, i, i, i+1, false)); 
         for (var j=0; j<i; j++) {
-            this.history.push(newSortStep(j, i, j, i, false)); 
+            this.history.push(newSortStep(j, i, j, i+1, false)); 
             if (array[i] < array[j]) break;
         }
         array.move(i, j); 
-        this.history.push(newSortStep(j, i, j, i, false)); 
+        this.history.push(newSortStep(j, i, j, i+1, false)); 
     }
 
     this.history.push(newSortStep(array.length, array.length, array.length, 0, true)); 
