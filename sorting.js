@@ -92,17 +92,17 @@ var quickSort = function (array) {
     this.history.push(newSortStep(array.length, array.length, array.length, array.length, array.length, true)); 
 }
 
-// Incl start, not incl end
 var qRec = function (array, start, end, addHist) {
 
-    var pivotIndex = start+Math.floor((end-start)*Math.random());
-    array.swap(pivotIndex, end-1); 
-    addHist(end-2, end-1, start, start, end);  
-
+    // Removed Random Pivot Selection
+    //var pivotIndex = start+Math.floor((end-start)*Math.random());
+    //array.swap(pivotIndex, end-1); 
+    //addHist(end-2, end-1, start, start, end);  
+    var pivotIndex = end-1; 
     var i = start; var j = end-2; 
     while(i<=j){
         if(array[i] > array[end-1]) {
-            array.swap(i, j); j= j-1; i = i-1; 
+            array.swap(i, j); j = j-1; i = i-1; 
         }
         if (j<start) break; 
         i = i+1; 
@@ -116,21 +116,48 @@ var qRec = function (array, start, end, addHist) {
     if (end-pivotIndex > 1) qRec(array, pivotIndex+1, end, addHist); 
 }
 
+var mergeSort = function (array) {
+
+    var origArray = _.clone(array); var n = array.length; 
+    var newSortStep = _.partial(sortStep, array, origArray, array, _, _, _, _, _, _);
+    this.history.push(newSortStep(0, 0, 0, 0, array.length, false)); 
+    var that = this; 
+    var addHistory = function(a,b,c,d,e) {that.history.push(newSortStep(a,b,c,d,e,false))}; 
+    mRec(array, 0, array.length, addHistory); 
+    this.history.push(newSortStep(n, n, n, n, n, true));
+}
+
+var mRec = function (array, start, end, addHist) {
+    var mid = start+Math.ceil((end-start)/2);
+    
+    if(mid - start > 1) mRec (array, start, mid, addHist); 
+    if(end - mid > 1) mRec (array, mid, end, addHist); 
+
+    var i = start; var j = mid;
+    while (i<end && j<end) {
+        if (array[i] < array[j]) {++i;}
+        else {array.move(j, i); ++i; ++j}
+        addHist(i, j, j, start, end);
+    }
+}
+
 var sortIterator = function (s) {
     s.display(); 
     if (!s.isSorted) setTimeout(sortIterator, 200, s); 
 }
 
-var s1, s2, s3;
+var s1, s2, s3, s4;
 var runtests = function (numels, maxnum) {
     
     var newarr = generate_random(numels, maxnum); 
     s1 = sortData(selectionSort, newarr, 1); 
     s2 = sortData(insertionSort, newarr, 2); 
     s3 = sortData(quickSort, newarr, 3); 
+    s4 = sortData(mergeSort, newarr, 4); 
     sortIterator(s1); 
     sortIterator(s2); 
     sortIterator(s3); 
+    sortIterator(s4); 
 }
 
 document.addEventListener('DOMContentLoaded', function(){loadView(); runtests(30,10000);}); 

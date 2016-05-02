@@ -13,7 +13,10 @@ var printMe = function (string, classname) {
 // Generate array filled with random integers
 var generate_random = function(size, maxval) {
     var newarr = []; 
-    for(var i=0; i<size; i++) newarr[i] = (maxval/10)+Math.round(9*maxval*Math.random()/10);
+    while (newarr.length!==size) {
+        var el = (maxval/10)+Math.round(9*maxval*Math.random()/10); 
+        if (_.indexOf(newarr, el) === -1) newarr.push(el); 
+    }
     return newarr; 
 }
 
