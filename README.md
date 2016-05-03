@@ -16,16 +16,15 @@ Currently, the following comparison-based sorting algorithms have been implement
 
 3. Quick Sort
 
+4. Merge Sort
+
 The following are yet to be included: 
 
 1. Heap Sort
 
-2. Merge Sort
-
 ### Display
 
-In order to implement this in a standards-compliant way, I will be using jQuery, underscore.js (or lodash.js) and backbone.js to build a Model-View-Collection single-page app. 
+In order to implement this in a standards-compliant way, I will use d3.js and vue.js. 
 
-I intend to use d3.js to build SVG elements that represent the array being sorted. 
 
 
