@@ -82,6 +82,22 @@ var insertionSort = function (array) {
     this.history.push(newSortStep(array.length, array.length, array.length, 0, true)); 
 }
 
+var bubbleSort = function (array) {
+
+    var origArray = _.clone(array); 
+    var newSortStep = _.partial(sortStep, array, origArray, array, _, _, _, _, _, _); 
+
+    for (var i=0; i<array.length-1; i++) {
+        for (var j=0; j<array.length-1-i; j++) {
+            if (array[j] > array[j+1]) array.swap(j, j+1); 
+            this.history.push(newSortStep(j, j+1, j, j, j+2, false))
+        }
+    }
+
+    this.history.push(newSortStep(array.length, array.length, array.length, array.length, array.length, true));
+
+}
+
 var quickSort = function (array) {
 
     var origArray = _.clone(array); 
@@ -145,7 +161,7 @@ var sortIterator = function (s) {
     if (!s.isSorted) setTimeout(sortIterator, s.timeDelay, s); 
 }
 
-var s1, s2, s3, s4;
+var s1, s2, s3, s4, s5;
 var sortObjects;
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -153,9 +169,10 @@ document.addEventListener('DOMContentLoaded', function(){
     var newarr = generate_random(30, 10000); 
     s1 = sortData("Selection Sort", selectionSort, newarr, 1); 
     s2 = sortData("Insertion Sort", insertionSort, newarr, 2); 
-    s3 = sortData("Quick Sort", quickSort, newarr, 3); 
-    s4 = sortData("Merge Sort", mergeSort, newarr, 4); 
-    sortObjects = [s1, s2, s3, s4]; 
+    s3 = sortData("Bubble Sort", bubbleSort, newarr, 3); 
+    s4 = sortData("Quick Sort", quickSort, newarr, 4); 
+    s5 = sortData("Merge Sort", mergeSort, newarr, 5); 
+    sortObjects = [s1, s2, s3, s4, s5]; 
 
     new Vue({
         el: '#myapp', 
@@ -188,19 +205,8 @@ document.addEventListener('DOMContentLoaded', function(){
     })     
     
     loadView(); 
-    s1.sort(_.clone(newarr)); 
-    s2.sort(_.clone(newarr)); 
-    s3.sort(_.clone(newarr)); 
-    s4.sort(_.clone(newarr)); 
-    sortIterator(s1); 
-    sortIterator(s2); 
-    sortIterator(s3); 
-    sortIterator(s4); 
-
-    var formNodeList = document.getElementsByClassName('pure-form'); 
-    for (var i = 0; i<formNodeList.length; i++) {
-        formNodeList[i].addEventListener('submit', function (e) {e.preventDefault()},false);
-    }; 
+    sortObjects.forEach(function(el){el.sort(_.clone(newarr))});
+    sortObjects.forEach(function(el){sortIterator(el)});
 }); 
 
 // Swap elements in array for comparison based sorting
