@@ -75,7 +75,7 @@ var dispRects = function (sortObj, svgtarg) {
             else if(d[1] === sortObj.array[sortObj.minIndex]) {return "black"}    
         })
         .transition()
-        .duration(150)
+        .duration(sortObjects[svgtarg-1].timeDelay*3/4)
         .attr("x", function(d) {
             return d[0].newIndex*svgTarget1.clientWidth/dispObj.length;
         });  
@@ -94,7 +94,7 @@ var dispRects = function (sortObj, svgtarg) {
 
     lines.attr("class", "lineUpdate")
         .transition()
-        .duration(150)
+        .duration(sortObjects[svgtarg-1].timeDelay*3/4)
         .attr("x1", function(d) {return d*svgTarget1.clientWidth/sortObj.array.length;})
         .attr("x2", function(d) {return d*svgTarget1.clientWidth/sortObj.array.length;})
 

@@ -11,6 +11,7 @@ var sortData = function (title, sortFcn, initArray, dispClass) {
     obj.history = [];
     obj.isSorted = false; 
     obj.timeDelay = 200; 
+    obj.play = true; 
 
     // Step up sorting function and start sorting
     obj.sort = sortFcn; 
@@ -96,10 +97,6 @@ var quickSort = function (array) {
 
 var qRec = function (array, start, end, addHist) {
 
-    // Removed Random Pivot Selection
-    //var pivotIndex = start+Math.floor((end-start)*Math.random());
-    //array.swap(pivotIndex, end-1); 
-    //addHist(end-2, end-1, start, start, end);  
     var pivotIndex = end-1; 
     var i = start; var j = end-2; 
     while(i<=j){
@@ -144,7 +141,7 @@ var mRec = function (array, start, end, addHist) {
 }
 
 var sortIterator = function (s) {
-    s.display(); 
+    if (s.play) s.display(); 
     if (!s.isSorted) setTimeout(sortIterator, s.timeDelay, s); 
 }
 
@@ -164,6 +161,29 @@ document.addEventListener('DOMContentLoaded', function(){
         el: '#myapp', 
         data: {
             sortViews: sortObjects
+        },
+        methods: {
+            stopPlay: function(index) {
+                sortObjects[index].play = false; 
+            },
+            startPlay: function(index) {
+                sortObjects[index].play = true; 
+            },
+            redoMe: function(index) {
+                sortObjects[index].history = []; 
+                sortObjects[index].isSorted = false; 
+                sortObjects[index].timeDelay = 200; 
+                sortObjects[index].play = true; 
+                sortObjects[index].current = 0; 
+                sortObjects[index].sort(_.clone(newarr)); 
+                sortIterator(sortObjects[index]);
+            },
+            slowDown: function(index) {
+                sortObjects[index].timeDelay = sortObjects[index].timeDelay/0.7;
+            },
+            speedUp: function(index) {
+                sortObjects[index].timeDelay = sortObjects[index].timeDelay*0.7;
+            }
         }
     })     
     

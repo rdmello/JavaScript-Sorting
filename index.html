@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="/resources/pure/grids-responsive-min.css">
         <link rel="stylesheet" href="index.css">
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
+        <link rel="stylesheet" type="text/css" href="/resources/font-awesome/css/font-awesome.min.css" />
         <script src="/resources/underscore.js"></script>
         <script src="/resources/d3.js"></script>
         <script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>
@@ -29,12 +30,15 @@
                     <div id="myapp">
                         <div v-for="sortView in sortViews">
                             <h3>{{sortView.title}}</h3>
-                            <span>Step Number: {{sortView.current}}</span>
-                            <form class="pure-form">
-                                <span>Time Delay: </span><input class="pure-input-1-4 pure-input-rounded" type="text" placeholder=".pure-input-1-4" v-model="sortView.timeDelay" lazy>
-                            </form>
-                            <pre class="out{{sortView.displayClass}}"></pre>
-                            <div class="svgt svgtarget{{sortView.displayClass}}"></div> 
+                            <div class="svgt svgtarget{{sortView.displayClass}}">
+                                <div class="cntrls cntrl{{sortView.displayClass}}">
+                                    <span class="fa fa-lg fa-backward" aria-hidden="true" v-on:click="slowDown($index)"> </span>&nbsp
+                                    <span class="fa fa-lg fa-pause" aria-hidden="true" v-bind:style="{display:(!sortView.isSorted)&&sortView.play?'inline':'none'}" v-on:click="stopPlay($index)"></span>
+                                    <span class="fa fa-lg  fa-play" aria-hidden="true" v-bind:style="{display:(!sortView.isSorted)&&(!sortView.play)?'inline':'none'}" v-on:click="startPlay($index)"></span>
+                                    <span class="fa fa-lg  fa-refresh" aria-hidden="true" v-bind:style="{display:sortView.isSorted?'inline':'none'}" v-on:click="redoMe($index)"></span>
+                                    &nbsp<span class="fa fa-lg fa-forward" aria-hidden="true" v-on:click="speedUp($index)"></span>
+                                </div>
+                            </div> 
                             <br/>
                         </div>
                     </div>
