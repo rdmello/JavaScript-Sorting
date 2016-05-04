@@ -1,21 +1,21 @@
 // Rylan Dmello Apr 28 2016
-// View based on d3.js for sorting project
+// View based on d3.js and vue.js for sorting project
 
-var svgTarget, mySvg; 
+var svgTarget1, mySvg1; 
 var svgTarget2, mySvg2; 
 var svgTarget3, mySvg3; 
 var svgTarget4, mySvg4; 
 
 var loadView = function() {
-    svgTarget = document.getElementsByClassName("svgtarget")[0]; 
+    svgTarget1 = document.getElementsByClassName("svgtarget1")[0]; 
     svgTarget2 = document.getElementsByClassName("svgtarget2")[0]; 
     svgTarget3 = document.getElementsByClassName("svgtarget3")[0]; 
     svgTarget4 = document.getElementsByClassName("svgtarget4")[0]; 
 
-    mySvg = d3.select(svgTarget)
+    mySvg1 = d3.select(svgTarget1)
         .append("svg")
-        .attr("width", svgTarget.clientWidth)
-        .attr("height", svgTarget.clientHeight)
+        .attr("width", svgTarget1.clientWidth)
+        .attr("height", svgTarget1.clientHeight)
         .style("border", "solid rgb(160, 160, 160) 1px"); 
 
     mySvg2 = d3.select(svgTarget2)
@@ -60,7 +60,7 @@ var dispRects = function (sortObj, svgtarg) {
     }
 
     var thisSvg; 
-    if(svgtarg==1) {thisSvg = mySvg} 
+    if(svgtarg==1) {thisSvg = mySvg1} 
     else if (svgtarg == 2) {thisSvg = mySvg2}
     else if (svgtarg == 3) {thisSvg = mySvg3}
     else {thisSvg = mySvg4}; 
@@ -77,14 +77,14 @@ var dispRects = function (sortObj, svgtarg) {
         .transition()
         .duration(150)
         .attr("x", function(d) {
-            return d[0].newIndex*svgTarget.clientWidth/dispObj.length;
+            return d[0].newIndex*svgTarget1.clientWidth/dispObj.length;
         });  
 
     rects.enter().append("rect").attr("class", "enter")
-        .attr("width", svgTarget.clientWidth/dispObj.length)           
-        .attr("height", function(d) {return d[1]*svgTarget.clientHeight/maxheight})             
-        .attr("x", function(d){return d[0].newIndex*svgTarget.clientWidth/dispObj.length})
-        .attr("y", function (d) {return svgTarget.clientHeight-(d[1]*svgTarget.clientHeight/maxheight)})
+        .attr("width", svgTarget1.clientWidth/dispObj.length)           
+        .attr("height", function(d) {return d[1]*svgTarget1.clientHeight/maxheight})             
+        .attr("x", function(d){return d[0].newIndex*svgTarget1.clientWidth/dispObj.length})
+        .attr("y", function (d) {return svgTarget1.clientHeight-(d[1]*svgTarget1.clientHeight/maxheight)})
         .attr("rx", 5)
         .attr("ry", 5); 
 
@@ -95,17 +95,16 @@ var dispRects = function (sortObj, svgtarg) {
     lines.attr("class", "lineUpdate")
         .transition()
         .duration(150)
-        .attr("x1", function(d) {return d*svgTarget.clientWidth/sortObj.array.length;})
-        .attr("x2", function(d) {return d*svgTarget.clientWidth/sortObj.array.length;})
+        .attr("x1", function(d) {return d*svgTarget1.clientWidth/sortObj.array.length;})
+        .attr("x2", function(d) {return d*svgTarget1.clientWidth/sortObj.array.length;})
 
     lines.enter().append("line").attr("class", "lineEnter")
-        .attr("x1", function(d) {return d*svgTarget.clientWidth/sortObj.array.length;})
+        .attr("x1", function(d) {return d*svgTarget1.clientWidth/sortObj.array.length;})
         .attr("y1", 0)
-        .attr("x2", function(d) {return d*svgTarget.clientWidth/sortObj.array.length;})
-        .attr("y2", svgTarget.clientHeight);
+        .attr("x2", function(d) {return d*svgTarget1.clientWidth/sortObj.array.length;})
+        .attr("y2", svgTarget1.clientHeight);
 
     lines.exit().remove(); 
-
 }
 
 

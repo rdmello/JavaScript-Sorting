@@ -4,15 +4,17 @@
 
 "use strict";
 
-var sortData = function (sortFcn, initArray, dispClass) {
+var sortData = function (title, sortFcn, initArray, dispClass) {
 
     var obj = {}; 
+    obj.title = title; 
     obj.history = [];
     obj.isSorted = false; 
+    obj.timeDelay = 200; 
 
     // Step up sorting function and start sorting
     obj.sort = sortFcn; 
-    obj.sort(_.clone(initArray));
+    // obj.sort(_.clone(initArray));
 
     // Display properties
     obj.current = 0; 
@@ -143,24 +145,43 @@ var mRec = function (array, start, end, addHist) {
 
 var sortIterator = function (s) {
     s.display(); 
-    if (!s.isSorted) setTimeout(sortIterator, 200, s); 
+    if (!s.isSorted) setTimeout(sortIterator, s.timeDelay, s); 
 }
 
 var s1, s2, s3, s4;
-var runtests = function (numels, maxnum) {
+var sortObjects;
+
+document.addEventListener('DOMContentLoaded', function(){
     
-    var newarr = generate_random(numels, maxnum); 
-    s1 = sortData(selectionSort, newarr, 1); 
-    s2 = sortData(insertionSort, newarr, 2); 
-    s3 = sortData(quickSort, newarr, 3); 
-    s4 = sortData(mergeSort, newarr, 4); 
+    var newarr = generate_random(30, 10000); 
+    s1 = sortData("Selection Sort", selectionSort, newarr, 1); 
+    s2 = sortData("Insertion Sort", insertionSort, newarr, 2); 
+    s3 = sortData("Quick Sort", quickSort, newarr, 3); 
+    s4 = sortData("Merge Sort", mergeSort, newarr, 4); 
+    sortObjects = [s1, s2, s3, s4]; 
+
+    new Vue({
+        el: '#myapp', 
+        data: {
+            sortViews: sortObjects
+        }
+    })     
+    
+    loadView(); 
+    s1.sort(_.clone(newarr)); 
+    s2.sort(_.clone(newarr)); 
+    s3.sort(_.clone(newarr)); 
+    s4.sort(_.clone(newarr)); 
     sortIterator(s1); 
     sortIterator(s2); 
     sortIterator(s3); 
     sortIterator(s4); 
-}
 
-document.addEventListener('DOMContentLoaded', function(){loadView(); runtests(30,10000);}); 
+    var formNodeList = document.getElementsByClassName('pure-form'); 
+    for (var i = 0; i<formNodeList.length; i++) {
+        formNodeList[i].addEventListener('submit', function (e) {e.preventDefault()},false);
+    }; 
+}); 
 
 // Swap elements in array for comparison based sorting
 Array.prototype.swap = function (i,j) {

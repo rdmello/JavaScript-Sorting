@@ -12,7 +12,8 @@
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
         <script src="/resources/underscore.js"></script>
         <script src="/resources/d3.js"></script>
-        <script src="tests.js"></script>
+        <script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>
+
         <script src="utils.js"></script>
         <script src="sorting.js"></script>
         <script src="view.js"></script>
@@ -24,21 +25,19 @@
                 <h1>  </h1>
                 <div class="out">
                     <h1>PROJECT: Implement sorting algorithms in JS</h1>
-                    <h3>Selection Sort:</h3>
-                    <pre class="out1"></pre>
-                    <div class="svgt svgtarget"></div> 
-                    <br/>
-                    <h3>Insertion Sort:</h3>
-                    <pre class="out2"></pre>
-                    <div class="svgt svgtarget2"></div> 
-                    <h3>Quick Sort:</h3>
-                    <pre class="out3"></pre>
-                    <div class="svgt svgtarget3"></div> 
-                    <h3>Merge Sort:</h3>
-                    <pre class="out4"></pre>
-                    <div class="svgt svgtarget4"></div> 
 
-
+                    <div id="myapp">
+                        <div v-for="sortView in sortViews">
+                            <h3>{{sortView.title}}</h3>
+                            <span>Step Number: {{sortView.current}}</span>
+                            <form class="pure-form">
+                                <span>Time Delay: </span><input class="pure-input-1-4 pure-input-rounded" type="text" placeholder=".pure-input-1-4" v-model="sortView.timeDelay" lazy>
+                            </form>
+                            <pre class="out{{sortView.displayClass}}"></pre>
+                            <div class="svgt svgtarget{{sortView.displayClass}}"></div> 
+                            <br/>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="pure-u-2-24 pure-u-md-2-24 pure-u-lg-2-24"></div>
