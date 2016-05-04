@@ -5,12 +5,14 @@ var svgTarget1, mySvg1;
 var svgTarget2, mySvg2; 
 var svgTarget3, mySvg3; 
 var svgTarget4, mySvg4; 
+var svgTarget5, mySvg5; 
 
 var loadView = function() {
     svgTarget1 = document.getElementsByClassName("svgtarget1")[0]; 
     svgTarget2 = document.getElementsByClassName("svgtarget2")[0]; 
     svgTarget3 = document.getElementsByClassName("svgtarget3")[0]; 
     svgTarget4 = document.getElementsByClassName("svgtarget4")[0]; 
+    svgTarget5 = document.getElementsByClassName("svgtarget5")[0]; 
 
     mySvg1 = d3.select(svgTarget1)
         .append("svg")
@@ -34,6 +36,12 @@ var loadView = function() {
         .append("svg")
         .attr("width", svgTarget4.clientWidth)
         .attr("height", svgTarget4.clientHeight)
+        .style("border", "solid rgb(160, 160, 160) 1px"); 
+
+    mySvg5 = d3.select(svgTarget5)
+        .append("svg")
+        .attr("width", svgTarget5.clientWidth)
+        .attr("height", svgTarget5.clientHeight)
         .style("border", "solid rgb(160, 160, 160) 1px"); 
 
 }
@@ -63,7 +71,8 @@ var dispRects = function (sortObj, svgtarg) {
     if(svgtarg==1) {thisSvg = mySvg1} 
     else if (svgtarg == 2) {thisSvg = mySvg2}
     else if (svgtarg == 3) {thisSvg = mySvg3}
-    else {thisSvg = mySvg4}; 
+    else if (svgtarg == 4) {thisSvg = mySvg4}
+    else {thisSvg = mySvg5}; 
 
     var rects = thisSvg.selectAll("rect").data(dispObj);
 
