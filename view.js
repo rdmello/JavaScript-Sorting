@@ -1,49 +1,17 @@
 // Rylan Dmello Apr 28 2016
 // View based on d3.js and vue.js for sorting project
 
-var svgTarget1, mySvg1; 
-var svgTarget2, mySvg2; 
-var svgTarget3, mySvg3; 
-var svgTarget4, mySvg4; 
-var svgTarget5, mySvg5; 
+var svgTargets; 
+var mySvgs; 
 
 var loadView = function() {
-    svgTarget1 = document.getElementsByClassName("svgtarget1")[0]; 
-    svgTarget2 = document.getElementsByClassName("svgtarget2")[0]; 
-    svgTarget3 = document.getElementsByClassName("svgtarget3")[0]; 
-    svgTarget4 = document.getElementsByClassName("svgtarget4")[0]; 
-    svgTarget5 = document.getElementsByClassName("svgtarget5")[0]; 
+    svgTargets = document.getElementsByClassName("svgt"); 
 
-    mySvg1 = d3.select(svgTarget1)
+    mySvgs = d3.selectAll(".svgt")
         .append("svg")
-        .attr("width", svgTarget1.clientWidth)
-        .attr("height", svgTarget1.clientHeight)
+        .attr("width", svgTargets[0].clientWidth)
+        .attr("height", svgTargets[0].clientHeight)
         .style("border", "solid rgb(160, 160, 160) 1px"); 
-
-    mySvg2 = d3.select(svgTarget2)
-        .append("svg")
-        .attr("width", svgTarget2.clientWidth)
-        .attr("height", svgTarget2.clientHeight)
-        .style("border", "solid rgb(160, 160, 160) 1px"); 
-
-    mySvg3 = d3.select(svgTarget3)
-        .append("svg")
-        .attr("width", svgTarget3.clientWidth)
-        .attr("height", svgTarget3.clientHeight)
-        .style("border", "solid rgb(160, 160, 160) 1px");
-
-    mySvg4 = d3.select(svgTarget4)
-        .append("svg")
-        .attr("width", svgTarget4.clientWidth)
-        .attr("height", svgTarget4.clientHeight)
-        .style("border", "solid rgb(160, 160, 160) 1px"); 
-
-    mySvg5 = d3.select(svgTarget5)
-        .append("svg")
-        .attr("width", svgTarget5.clientWidth)
-        .attr("height", svgTarget5.clientHeight)
-        .style("border", "solid rgb(160, 160, 160) 1px"); 
-
 }
 
 var dispRects = function (sortObj, svgtarg) {
@@ -67,13 +35,7 @@ var dispRects = function (sortObj, svgtarg) {
         maxheight = maxheight > dispObj[i][1] ? maxheight : dispObj[i][1]; 
     }
 
-    var thisSvg; 
-    if(svgtarg==1) {thisSvg = mySvg1} 
-    else if (svgtarg == 2) {thisSvg = mySvg2}
-    else if (svgtarg == 3) {thisSvg = mySvg3}
-    else if (svgtarg == 4) {thisSvg = mySvg4}
-    else {thisSvg = mySvg5}; 
-
+    var thisSvg = mySvgs.filter(function(d,i){return i===svgtarg-1});
     var rects = thisSvg.selectAll("rect").data(dispObj);
 
     rects.attr("class", "update")
@@ -86,14 +48,14 @@ var dispRects = function (sortObj, svgtarg) {
         .transition()
         .duration(sortObjects[svgtarg-1].timeDelay*3/4)
         .attr("x", function(d) {
-            return d[0].newIndex*svgTarget1.clientWidth/dispObj.length;
+            return d[0].newIndex*svgTargets[0].clientWidth/dispObj.length;
         });  
 
     rects.enter().append("rect").attr("class", "enter")
-        .attr("width", svgTarget1.clientWidth/dispObj.length)           
-        .attr("height", function(d) {return d[1]*svgTarget1.clientHeight/maxheight})             
-        .attr("x", function(d){return d[0].newIndex*svgTarget1.clientWidth/dispObj.length})
-        .attr("y", function (d) {return svgTarget1.clientHeight-(d[1]*svgTarget1.clientHeight/maxheight)})
+        .attr("width", svgTargets[0].clientWidth/dispObj.length)           
+        .attr("height", function(d) {return d[1]*svgTargets[0].clientHeight/maxheight})             
+        .attr("x", function(d){return d[0].newIndex*svgTargets[0].clientWidth/dispObj.length})
+        .attr("y", function (d) {return svgTargets[0].clientHeight-(d[1]*svgTargets[0].clientHeight/maxheight)})
         .attr("rx", 5)
         .attr("ry", 5); 
 
@@ -104,14 +66,14 @@ var dispRects = function (sortObj, svgtarg) {
     lines.attr("class", "lineUpdate")
         .transition()
         .duration(sortObjects[svgtarg-1].timeDelay*3/4)
-        .attr("x1", function(d) {return d*svgTarget1.clientWidth/sortObj.array.length;})
-        .attr("x2", function(d) {return d*svgTarget1.clientWidth/sortObj.array.length;})
+        .attr("x1", function(d) {return d*svgTargets[0].clientWidth/sortObj.array.length;})
+        .attr("x2", function(d) {return d*svgTargets[0].clientWidth/sortObj.array.length;})
 
     lines.enter().append("line").attr("class", "lineEnter")
-        .attr("x1", function(d) {return d*svgTarget1.clientWidth/sortObj.array.length;})
+        .attr("x1", function(d) {return d*svgTargets[0].clientWidth/sortObj.array.length;})
         .attr("y1", 0)
-        .attr("x2", function(d) {return d*svgTarget1.clientWidth/sortObj.array.length;})
-        .attr("y2", svgTarget1.clientHeight);
+        .attr("x2", function(d) {return d*svgTargets[0].clientWidth/sortObj.array.length;})
+        .attr("y2", svgTargets[0].clientHeight);
 
     lines.exit().remove(); 
 }

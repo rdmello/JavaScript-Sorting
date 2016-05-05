@@ -13,9 +13,7 @@ var sortData = function (title, sortFcn, initArray, dispClass) {
     obj.timeDelay = 200; 
     obj.play = true; 
 
-    // Step up sorting function and start sorting
     obj.sort = sortFcn; 
-    // obj.sort(_.clone(initArray));
 
     // Display properties
     obj.current = 0; 
@@ -66,20 +64,20 @@ var selectionSort = function (array) {
 var insertionSort = function (array) {
 
     var origArray = _.clone(array); 
-    var newSortStep = _.partial(sortStep, array, origArray, array, _, _, _, 0, _, _); 
-    this.history.push(newSortStep(0, 0, 0, 0, false)); 
+    var newSortStep = _.partial(sortStep, array, origArray, array, _, _, _, _, _, _); 
+    this.history.push(newSortStep(0, 0, 0, 0, 0, false)); 
 
     for (var i=0; i< array.length; i++) {
-        this.history.push(newSortStep(i, i, i, i+1, false)); 
+        this.history.push(newSortStep(i, i, i, 0, i+1, false)); 
         for (var j=0; j<i; j++) {
-            this.history.push(newSortStep(j, i, j, i+1, false)); 
+            this.history.push(newSortStep(j, i, j, 0, i+1, false)); 
             if (array[i] < array[j]) break;
         }
         array.move(i, j); 
-        this.history.push(newSortStep(j, i, j, i+1, false)); 
+        this.history.push(newSortStep(j, i, j, 0, i+1, false)); 
     }
 
-    this.history.push(newSortStep(array.length, array.length, array.length, 0, true)); 
+    this.history.push(newSortStep(array.length, array.length, array.length, array.length, array.length, true)); 
 }
 
 var bubbleSort = function (array) {
@@ -156,12 +154,43 @@ var mRec = function (array, start, end, addHist) {
     }
 }
 
+var heapSort = function (array) {
+
+    var origArray = _.clone(array); var n = array.length; 
+    var newSortStep = _.partial(sortStep, array, origArray, array, _, _, _, _, _, _); 
+    this.history.push(newSortStep(0, 0, 0, 0, 0, false)); 
+    var that = this; 
+    
+    var bubbleDown = function (position, arrayMax) {
+
+        var maxpos=(2*position)+2<arrayMax?
+            array[(2*position)+1]>array[(2*position)+2]?(2*position)+1:
+            (2*position)+2:array[(2*position+1)]; 
+        if (array[position]<array[maxpos]){
+            array.swap(position, maxpos); 
+            that.history.push(newSortStep(position, maxpos, n, 0, arrayMax, false));  
+            if((2*position)+1<arrayMax) bubbleDown(maxpos, arrayMax); 
+        }
+    }
+
+    for (var i = n-1; i >= 0; --i) bubbleDown(i, n);
+   
+    for (var i = 0; i < n; i++) {
+        array.swap(0, n-i-1); 
+        that.history.push(newSortStep(n-i, 0, n, 0, n-i, false));  
+        bubbleDown(0, n-i-1); 
+    }
+
+    this.history.push(newSortStep(n, n, n, n, n, true)); 
+
+}
+
 var sortIterator = function (s) {
     if (s.play) s.display(); 
     if (!s.isSorted) setTimeout(sortIterator, s.timeDelay, s); 
 }
 
-var s1, s2, s3, s4, s5;
+var s1, s2, s3, s4, s5, s6;
 var sortObjects;
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -172,7 +201,8 @@ document.addEventListener('DOMContentLoaded', function(){
     s3 = sortData("Bubble Sort", bubbleSort, newarr, 3); 
     s4 = sortData("Quick Sort", quickSort, newarr, 4); 
     s5 = sortData("Merge Sort", mergeSort, newarr, 5); 
-    sortObjects = [s1, s2, s3, s4, s5]; 
+    s6 = sortData("Heap Sort", heapSort, newarr, 6); 
+    sortObjects = [s1, s2, s3, s4, s5, s6]; 
 
     new Vue({
         el: '#myapp', 
