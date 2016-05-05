@@ -14,17 +14,27 @@ Currently, the following comparison-based sorting algorithms have been implement
 
 2. Insertion Sort
 
-3. Quick Sort
+3. Bubble Sort
 
-4. Merge Sort
+4. Quick Sort
 
-The following are yet to be included: 
+5. Merge Sort
 
-1. Heap Sort
+6. Heap Sort
 
-### Display
+### Additional Libraries
 
-In order to implement this in a standards-compliant way, I will use d3.js and vue.js. 
+This project uses: 
 
+1. Font Awesome to display play/pause, reload, and forward/backward buttons
 
+2. Underscore.js for some syntactic sugar
+
+3. Vue.js to generate the HTML for the six sorting algorithm visualizations and to work with events
+
+4. d3.js to move the rectangles around within each sorting visualization. This is not strictly necessary, and I will look into display purely using Vue.js
+
+5. Pure.css for a lightweight responsive library
+
+6. Raleway font for a professional look
 
