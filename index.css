@@ -36,15 +36,6 @@ span {
     line-height: 20px;
 }
 
-input[type="text"] {
-    font-family: Raleway; 
-    font-size: 14px;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: 400;
-    line-height: 20px;
-}
-
 .out {
     border-radius: 15px;
     background-color: white;
@@ -87,3 +78,30 @@ svg {
     left: 10px; 
     color: rgb(150, 150, 150); 
 }
+
+
+.barContainers {
+    position: relative; 
+    top: 0px; 
+    left: 0px; 
+    height: 150px; 
+    border: solid rgb(160,160,160) 1px; 
+    border-radius: 10px; 
+}
+
+.rect {
+    position: absolute; 
+    border-radius: 10px; 
+    top: 0px; 
+    left: 0px;
+}
+
+.bar {
+    position: absolute; 
+    top: 0px; 
+    left: 0px; 
+    width: 10px; 
+    background-color: red; 
+    border: 5px solid white; 
+}
+

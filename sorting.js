@@ -19,9 +19,9 @@ var sortData = function (title, sortFcn, initArray, dispClass) {
     obj.current = 0; 
     obj.displayClass = dispClass; 
     obj.display = function() { 
-        dispRects(obj.history[obj.current], this.displayClass); 
-        if (obj.history[obj.current].isComplete) {obj.isSorted = true}; 
-        obj.current++; 
+        //dispRects(obj.history[obj.current], this.displayClass); 
+        if (obj.history[obj.current].isComplete) {obj.isSorted = true}
+        else obj.current++; 
     };
 
     return obj; 
@@ -195,14 +195,16 @@ var sortObjects;
 
 document.addEventListener('DOMContentLoaded', function(){
     
-    var newarr = generate_random(30, 10000); 
+    var newarr = generate_random(30, 150); 
     s1 = sortData("Selection Sort", selectionSort, newarr, 1); 
     s2 = sortData("Insertion Sort", insertionSort, newarr, 2); 
-    s3 = sortData("Bubble Sort", bubbleSort, newarr, 3); 
-    s4 = sortData("Quick Sort", quickSort, newarr, 4); 
-    s5 = sortData("Merge Sort", mergeSort, newarr, 5); 
-    s6 = sortData("Heap Sort", heapSort, newarr, 6); 
-    sortObjects = [s1, s2, s3, s4, s5, s6]; 
+    // s3 = sortData("Bubble Sort", bubbleSort, newarr, 3); 
+    // s4 = sortData("Quick Sort", quickSort, newarr, 4); 
+    // s5 = sortData("Merge Sort", mergeSort, newarr, 5); 
+    // s6 = sortData("Heap Sort", heapSort, newarr, 6); 
+    // sortObjects = [s1, s2, s3, s4, s5, s6]; 
+    sortObjects = [s1, s2]; 
+    sortObjects.forEach(function(el){el.sort(_.clone(newarr))});
 
     new Vue({
         el: '#myapp', 
@@ -234,8 +236,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     })     
     
-    loadView(); 
-    sortObjects.forEach(function(el){el.sort(_.clone(newarr))});
+    //loadView(); 
     sortObjects.forEach(function(el){sortIterator(el)});
 }); 
 

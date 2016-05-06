@@ -13,7 +13,9 @@
         <link rel="stylesheet" type="text/css" href="/resources/font-awesome/css/font-awesome.min.css" />
         <script src="/resources/underscore.js"></script>
         <script src="/resources/d3.js"></script>
-        <script src="/resources/vue.min.js"></script>
+        <!--<script src="/resources/vue.min.js"></script>-->
+        <script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>
+
 
         <script src="utils.js"></script>
         <script src="sorting.js"></script>
@@ -31,6 +33,11 @@
                         <div v-for="sortView in sortViews">
                             <h3>{{sortView.title}}</h3>
                             <div class="svgt svgtarget{{sortView.displayClass}}">
+                                <div class="barContainers barContainer{{sortView.displayClass}}">
+                                    <div class="rect" v-for="box in sortView.history[sortView.current].array">
+                                        <div class="bar" v-bind:style="{top: (150-box-5)+'px', left: ($index*20)+'px', height: box+'px'}"></div>
+                                    </div>
+                                </div>
                                 <div class="cntrls cntrl{{sortView.displayClass}}">
                                     <span class="fa fa-lg fa-backward" aria-hidden="true" v-on:click="slowDown($index)"> </span>&nbsp
                                     <span class="fa fa-lg fa-pause" aria-hidden="true" v-bind:style="{display:(!sortView.isSorted)&&sortView.play?'inline':'none'}" v-on:click="stopPlay($index)"></span>
