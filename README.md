@@ -4,7 +4,7 @@ This project implements common comparison-based sorting algorithms in an event-d
 
 See http://rylan.coffee/s/ for the implementation.
 
-Comments and suggestions are welcome!
+Project completed as of May 5 2016. Comments and suggestions are welcome!
 
 ### Sorting Algorithms
 
