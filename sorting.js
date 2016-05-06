@@ -175,7 +175,7 @@ var heapSort = function (array) {
 
     for (var i = n-1; i >= 0; --i) bubbleDown(i, n);
    
-    for (var i = 0; i < n; i++) {
+    for (var i = 0; i < n-1; i++) {
         array.swap(0, n-i-1); 
         that.history.push(newSortStep(n-i, 0, n, 0, n-i, false));  
         bubbleDown(0, n-i-1); 
