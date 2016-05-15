@@ -32,7 +32,11 @@ function pad (n, width) {
 // Check that array is sorted
 Array.prototype.isSorted = function() {
     for (var i=1; i<this.length; i++) {
-        if(this[i]<this[i-1]) return false; 
+        if(this[i]<this[i-1]) {
+            console.log(i); 
+            console.log(this); 
+            return false; 
+        }
     }
     return true; 
 }
@@ -65,5 +69,11 @@ Array.prototype.isRearrangement = function(array) {
 
     return true; 
 }
-    
+
+Array.prototype.isSortedRearrangement = function(old) {
+    var b1 = this.isSorted();
+    var b2 = this.isRearrangement(old); 
+    return [b1, b2];
+}
+
 

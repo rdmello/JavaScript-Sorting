@@ -163,9 +163,10 @@ var heapSort = function (array) {
     
     var bubbleDown = function (position, arrayMax) {
 
-        var maxpos=(2*position)+2<arrayMax?
-            array[(2*position)+1]>array[(2*position)+2]?(2*position)+1:
-            (2*position)+2:array[(2*position+1)]; 
+        var maxpos = (2*position)+2<arrayMax
+                   ? array[(2*position)+1]>array[(2*position)+2]?(2*position)+1:(2*position)+2
+                   : (2*position)+1; 
+        if (maxpos >= arrayMax) return; 
         if (array[position]<array[maxpos]){
             array.swap(position, maxpos); 
             that.history.push(newSortStep(position, maxpos, n, 0, arrayMax, false));  
@@ -174,7 +175,26 @@ var heapSort = function (array) {
     }
 
     for (var i = n-1; i >= 0; --i) bubbleDown(i, n);
-   
+    
+    // Check that array is heapified properly
+    var heapCheck = array.map(function (elem, index) {
+        var lt = (2*index) + 1; 
+        var rt = (2*index) + 2; 
+        if (rt >= array.length) {return true; }
+        else if (rt == array.length) {if (lt < elem) return true;}
+        else {
+            if ((lt < elem) && (rt < elem)) {return true;}
+            else {return false;}
+        }
+    });
+
+    var heapCheckTotal = heapCheck.reduce(function (prev, cur) {
+        return prev && cur; 
+    }, true);
+
+    // console.table(heapCheck); 
+    console.log("Heap follows heap order property? "+heapCheckTotal); 
+
     for (var i = 0; i < n-1; i++) {
         array.swap(0, n-i-1); 
         that.history.push(newSortStep(n-i, 0, n, 0, n-i, false));  
@@ -236,6 +256,7 @@ document.addEventListener('DOMContentLoaded', function(){
     
     loadView(); 
     sortObjects.forEach(function(el){el.sort(_.clone(newarr))});
+    console.log(s6.history[s6.history.length-1].array.isSortedRearrangement(s6.history[0].array));
     sortObjects.forEach(function(el){sortIterator(el)});
 }); 
 
