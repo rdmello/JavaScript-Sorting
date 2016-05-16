@@ -67,13 +67,14 @@ var insertionSort = function (array) {
     var newSortStep = _.partial(sortStep, array, origArray, array, _, _, _, _, _, _); 
     this.history.push(newSortStep(0, 0, 0, 0, 0, false)); 
 
-    for (var i=0; i< array.length; i++) {
+    for (var i=1; i< array.length; i++) {
         this.history.push(newSortStep(i, i, i, 0, i+1, false)); 
-        for (var j=0; j<i; j++) {
+        var j=i-1; 
+        for (j=i-1; j>=0; j--) {
             this.history.push(newSortStep(j, i, j, 0, i+1, false)); 
-            if (array[i] < array[j]) break;
+            if (array[i] > array[j]) break;
         }
-        array.move(i, j); 
+        array.move(i, j+1); 
         this.history.push(newSortStep(j, i, j, 0, i+1, false)); 
     }
 
@@ -110,23 +111,28 @@ var quickSort = function (array) {
 }
 
 var qRec = function (array, start, end, addHist) {
-
-    var pivotIndex = end-1; 
-    var i = start; var j = end-2; 
-    while(i<=j){
-        if(array[i] > array[end-1]) {
-            array.swap(i, j); j = j-1; i = i-1; 
+    var pivotIndex = start+Math.floor((end-start)/2); 
+    var pivot = array[pivotIndex];
+    var i = start; var j = end-1; 
+    while(i <= j && j >= start){
+        while (array[i] < pivot) {
+            ++i; 
+            addHist(j, pivotIndex, i, start, end); 
         }
-        if (j<start) break; 
-        i = i+1; 
-        addHist(j, end-1, i, start, end); 
+        while (array[j] > pivot) {
+            --j; 
+            addHist(j, pivotIndex, i, start, end); 
+        }
+        if(i <= j) {
+            if(i==pivotIndex) pivotIndex =j; if(j==pivotIndex) pivotIndex =i;
+            array.swap(i, j); --j; ++i;
+            addHist(j, pivotIndex, i, start, end); 
+        } 
     }
     pivotIndex = j+1;
-    array.swap(end-1, pivotIndex); 
-    addHist(end-1, pivotIndex, j+1, start, end); 
 
     if (pivotIndex-start>1) qRec(array, start, pivotIndex, addHist); 
-    if (end-pivotIndex > 1) qRec(array, pivotIndex+1, end, addHist); 
+    if (end-pivotIndex > 1) qRec(array, pivotIndex, end, addHist); 
 }
 
 var mergeSort = function (array) {
@@ -147,9 +153,9 @@ var mRec = function (array, start, end, addHist) {
     if(end - mid > 1) mRec (array, mid, end, addHist); 
 
     var i = start; var j = mid;
-    while (i<end && j<end) {
+    while (i<j && j<end) {
         if (array[i] < array[j]) {++i;}
-        else {array.move(j, i); ++i; ++j}
+        else {array.move(j, i); ++i; ++j;}
         addHist(i, j, j, start, end);
     }
 }
@@ -161,22 +167,22 @@ var heapSort = function (array) {
     this.history.push(newSortStep(0, 0, 0, 0, 0, false)); 
     var that = this; 
     
-    var bubbleDown = function (position, arrayMax) {
-
-        var maxpos = (2*position)+2<arrayMax
-                   ? array[(2*position)+1]>array[(2*position)+2]?(2*position)+1:(2*position)+2
-                   : (2*position)+1; 
-        if (maxpos >= arrayMax) return; 
-        if (array[position]<array[maxpos]){
+    var bubbleDown = function (position, arrayMax, cur) {
+        var lt = (2*position)+1; var rt = lt + 1; 
+        if (lt >= arrayMax) return; 
+        var maxpos = (rt < arrayMax) ? ((array[lt] > array[rt]) ? lt : rt) : lt; 
+        that.history.push(newSortStep(position, maxpos, cur, 0, arrayMax, false));  
+        if (array[position] < array[maxpos]){
             array.swap(position, maxpos); 
-            that.history.push(newSortStep(position, maxpos, n, 0, arrayMax, false));  
-            if((2*position)+1<arrayMax) bubbleDown(maxpos, arrayMax); 
+            that.history.push(newSortStep(position, maxpos, cur, 0, arrayMax, false));  
+            if((2*position)+1<arrayMax) bubbleDown(maxpos, arrayMax, cur); 
         }
     }
 
-    for (var i = n-1; i >= 0; --i) bubbleDown(i, n);
+    for (var i = n-1; i >= 0; --i) bubbleDown(i, n, i);
     
     // Check that array is heapified properly
+    /*
     var heapCheck = array.map(function (elem, index) {
         var lt = (2*index) + 1; 
         var rt = (2*index) + 2; 
@@ -194,11 +200,12 @@ var heapSort = function (array) {
 
     // console.table(heapCheck); 
     console.log("Heap follows heap order property? "+heapCheckTotal); 
+    */
 
     for (var i = 0; i < n-1; i++) {
         array.swap(0, n-i-1); 
-        that.history.push(newSortStep(n-i, 0, n, 0, n-i, false));  
-        bubbleDown(0, n-i-1); 
+        that.history.push(newSortStep(n-i, 0, 0, 0, n-i, false));  
+        bubbleDown(0, n-i-1, 0); 
     }
 
     this.history.push(newSortStep(n, n, n, n, n, true)); 
@@ -256,7 +263,9 @@ document.addEventListener('DOMContentLoaded', function(){
     
     loadView(); 
     sortObjects.forEach(function(el){el.sort(_.clone(newarr))});
-    console.log(s6.history[s6.history.length-1].array.isSortedRearrangement(s6.history[0].array));
+    console.log(
+        sortObjects.map(function (el) {return el.history[el.history.length-1].array.isSorted();})
+    );
     sortObjects.forEach(function(el){sortIterator(el)});
 }); 
 
