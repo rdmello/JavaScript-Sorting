@@ -1,6 +1,11 @@
 // Rylan Dmello Apr 28 2016
 // View based on d3.js and vue.js for sorting project
 
+var colorUnfocused = "rgb(30,30,100)";
+var colorRead = "rgb(77,175,74)";
+var colorInsert = "rgb(55,126,184)";
+var colorMin = "rgb(0,0,0)";
+
 var svgTargets; 
 var mySvgs; 
 
@@ -11,7 +16,7 @@ var loadView = function() {
         .append("svg")
         .attr("width", svgTargets[0].clientWidth)
         .attr("height", svgTargets[0].clientHeight)
-        .style("border", "solid rgb(160, 160, 160) 1px"); 
+        .style("border", "solid rgb(30, 30, 100) 2px"); 
 }
 
 var dispRects = function (sortObj, svgtarg) {
@@ -40,10 +45,10 @@ var dispRects = function (sortObj, svgtarg) {
 
     rects.attr("class", "update")
         .style("fill", function(d){
-            if(d[0].isGray) {return "rgb(230,230,230)"}
-            else if(d[1] === sortObj.array[sortObj.readIndex]) {return "#4daf4a"}    
-            else if(d[1] === sortObj.array[sortObj.insertIndex]) {return "#377eb8"}    
-            else if(d[1] === sortObj.array[sortObj.minIndex]) {return "black"}    
+            if(d[0].isGray) {return colorUnfocused}
+            else if(d[1] === sortObj.array[sortObj.readIndex]) {return colorRead}    
+            else if(d[1] === sortObj.array[sortObj.insertIndex]) {return colorInsert}    
+            else if(d[1] === sortObj.array[sortObj.minIndex]) {return colorMin}    
         })
         .transition()
         .duration(sortObjects[svgtarg-1].timeDelay*3/4)

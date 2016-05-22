@@ -1,39 +1,42 @@
 
 body {
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(230, 230, 230);
+    color:hsl(240,54%,25%);
 }
 h1 {
     font-family: Raleway; 
-    font-size: 24px; 
+    font-size: 40px; 
     font-style: normal; 
     font-variant: normal; 
-    font-weight: 500; 
-    line-height: 26.4px; 
+    font-weight: 400; 
+    /*line-height: 26.4px; */
+    text-align: center;
 }
 h3 {
     font-family: Raleway; 
-    font-size: 18px; 
+    font-size: 21px; 
     font-style: normal; 
     font-variant: normal; 
-    font-weight: 500; 
-    line-height: 15.4px; 
+    font-weight: 1000; 
+    /*line-height: 15.4px; */
 }
 pre {
     font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
-    font-size: 13px; 
+    font-size: 10px; 
     font-style: normal; 
     font-variant: normal; 
     font-weight: 400; 
     line-height: 18.5667px; 
+    text-align: center; 
 }
 
 span {
     font-family: Raleway; 
-    font-size: 14px;
+    font-size: 20px;
     font-style: normal;
     font-variant: normal;
-    font-weight: 400;
-    line-height: 20px;
+    font-weight: 700;
+    /*line-height: 20px;*/
 }
 
 input[type="text"] {
@@ -46,12 +49,12 @@ input[type="text"] {
 }
 
 .out {
-    border-radius: 15px;
+    border-radius: 25px;
     background-color: white;
     box-shadow: 2px 4px 6px 1px rgba(50, 50, 50, 0.14);
     padding: 10px; 
-
 }
+
 rect {
     stroke-width: 5; 
     stroke: white;
@@ -60,7 +63,8 @@ rect {
     fill: green; 
 }
 .update {
-    fill: #e41a1c; 
+    /*fill: rgb(220,66,48); */
+    fill:hsl(0,70%,50%);
 }
 
 svg {
@@ -68,8 +72,8 @@ svg {
 }
 
 .lineUpdate {
-    stroke: black;
-    stroke-width: 2;
+    stroke: rgb(40,40,40);
+    stroke-width: 1;
 }
 
 .svgt {
@@ -79,11 +83,11 @@ svg {
 }
 
 .cntrls {
-    border: 1px solid rgb(150, 150, 150); 
+    border: 1px solid rgb(30, 30, 100); 
     padding: 5px; 
     border-radius: 10px; 
     position: absolute; 
     top: 10px; 
     left: 10px; 
-    color: rgb(150, 150, 150); 
+    color: rgb(30, 30, 100); 
 }

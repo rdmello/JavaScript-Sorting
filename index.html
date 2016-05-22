@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="/resources/pure/pure-min.css">
         <link rel="stylesheet" href="/resources/pure/grids-responsive-min.css">
         <link rel="stylesheet" href="index.css">
-        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway:700,400" />
         <link rel="stylesheet" type="text/css" href="/resources/font-awesome/css/font-awesome.min.css" />
         <script src="/resources/underscore.js"></script>
         <script src="/resources/d3.js"></script>
@@ -25,11 +25,11 @@
             <div class="content pure-u-20-24 pure-u-md-20-24 pure-u-lg-20-24">
                 <h1>  </h1>
                 <div class="out">
-                    <h1>PROJECT: Implement sorting algorithms in JS</h1>
+                    <h1>SORTING ALGORITHMS</h1>
 
                     <div id="myapp">
                         <div v-for="sortView in sortViews">
-                            <h3>{{sortView.title}}</h3>
+                            <span>{{sortView.title}}</span>
                             <div class="svgt svgtarget{{sortView.displayClass}}">
                                 <div class="cntrls cntrl{{sortView.displayClass}}">
                                     <span class="fa fa-lg fa-backward" aria-hidden="true" v-on:click="slowDown($index)"> </span>&nbsp
@@ -42,6 +42,7 @@
                             <br/>
                         </div>
                     </div>
+                    <pre>Rylan Dmello 2016</pre>
                 </div>
             </div>
             <div class="pure-u-2-24 pure-u-md-2-24 pure-u-lg-2-24"></div>

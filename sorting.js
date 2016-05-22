@@ -223,12 +223,12 @@ var sortObjects;
 document.addEventListener('DOMContentLoaded', function(){
     
     var newarr = generate_random(30, 10000); 
-    s1 = sortData("Selection Sort", selectionSort, newarr, 1); 
-    s2 = sortData("Insertion Sort", insertionSort, newarr, 2); 
-    s3 = sortData("Bubble Sort", bubbleSort, newarr, 3); 
-    s4 = sortData("Quick Sort", quickSort, newarr, 4); 
-    s5 = sortData("Merge Sort", mergeSort, newarr, 5); 
-    s6 = sortData("Heap Sort", heapSort, newarr, 6); 
+    s1 = sortData("SELECTION SORT", selectionSort, newarr, 1); 
+    s2 = sortData("INSERTION SORT", insertionSort, newarr, 2); 
+    s3 = sortData("BUBBLE SORT", bubbleSort, newarr, 3); 
+    s4 = sortData("QUICK SORT", quickSort, newarr, 4); 
+    s5 = sortData("MERGE SORT", mergeSort, newarr, 5); 
+    s6 = sortData("HEAP SORT", heapSort, newarr, 6); 
     sortObjects = [s1, s2, s3, s4, s5, s6]; 
 
     new Vue({
